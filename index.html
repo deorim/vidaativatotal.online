@@ -211,6 +211,13 @@
         <script>fbq('track', 'PageView', {content_name: 'Pergunta 10'});</script>
     </section>
 
+<script>
+    function nextQuestion(nextSectionId) {
+        document.querySelector('.section:not(.hidden)').classList.add('hidden');
+        document.getElementById(nextSectionId).classList.remove('hidden');
+    }   
+</script>
+
 
 </body>
 </html>
