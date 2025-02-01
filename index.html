@@ -203,6 +203,17 @@
     <section id="pergunta10" class="section hidden">
         <div class="question">O valor original desse material é de R$ 147,00, mas você não pagará nem 100, nem 50 reais. Apenas uma pequena taxa simbólica para manter a plataforma no ar e ajudar a divulgar a Palavra de Deus. Quer garantir agora?</div>
         <div class="options">
+                                          <!-- Botão 1 -->
+            <div id="cta1" class="mt-4 d-none">
+              <a id="cta-button-1" href="https://pay.hotmart.com/X73773857R?off=vo4k9ns9" class="a-btn" style="text-decoration: green;">
+                <span class="span-btn">Sim, quero ajudar!</span>
+                <span class="span-btn2">Preciso dessa Oração</span>
+              </a>
+            </div>
+                   <h3 class="my-4"><b></b></h3>
+          </div>
+        </div>
+      </div>
             <button onclick="finalStep()" class="btn-sim">Sim, quero ajudar!</button>
             <button onclick="nextQuestion('pergunta2')" class="btn-nao">Eu não preciso</button>
         </div>
@@ -210,30 +221,6 @@
                 <!-- Pixel Facebook -->
         <script>fbq('track', 'PageView', {content_name: 'Pergunta 9'});</script>
     </section>
-
-<script>
-    function nextQuestion(nextSectionId) {
-        document.querySelector('.section:not(.hidden)').classList.add('hidden');
-        document.getElementById(nextSectionId).classList.remove('hidden');
-    }
-
-    function getUTMParameters() {
-        let queryString = window.location.search;
-        if (queryString) {
-            return queryString;
-        }
-        return '';
-    }
-
-    function finalStep() {
-        let utmParams = getUTMParameters();
-        let destinationUrl = "https://pay.kiwify.com.br/tVelcBt";
-        if (utmParams) {
-            destinationUrl += utmParams;
-        }
-        window.location.href = destinationUrl;
-    }
-</script>
 
 
 </body>
