@@ -1,22 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<script
-  src="https://cdn.utmify.com.br/scripts/utms/latest.js"
-  data-utmify-prevent-subids
-  async
-  defer
-></script>
-
+    <script src="https://cdn.utmify.com.br/scripts/utms/latest.js" data-utmify-prevent-subids async defer></script>
     <script>
-  window.pixelId = "679f7f7abb0c530bd1ca3ce9";
-  var a = document.createElement("script");
-  a.setAttribute("async", "");
-  a.setAttribute("defer", "");
-  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
-  document.head.appendChild(a);
-</script>
-    
+        window.pixelId = "679f7f7abb0c530bd1ca3ce9";
+        var a = document.createElement("script");
+        a.setAttribute("async", "");
+        a.setAttribute("defer", "");
+        a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+        document.head.appendChild(a);
+    </script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +19,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
         }
         body {
             scroll-behavior: smooth;
@@ -35,7 +28,7 @@
             color: #fff;
         }
         .section {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -45,14 +38,14 @@
             background: rgba(0, 0, 0, 0.5);
         }
         .headline {
-            font-size: 2.5em;
+            font-size: 2rem;
             color: #ffd700;
             margin-bottom: 20px;
             font-weight: bold;
             text-transform: uppercase;
         }
         .question {
-            font-size: 2em;
+            font-size: 1.5rem;
             margin-bottom: 20px;
             font-weight: bold;
         }
@@ -63,16 +56,17 @@
             max-width: 400px;
         }
         .options button {
-            margin: 10px;
+            margin: 10px 0;
             padding: 15px;
-            font-size: 2em;
+            font-size: 1.5rem;
             cursor: pointer;
             width: 100%;
             border: none;
             border-radius: 5px;
-            transition: background 0.3s ease;
+            transition: opacity 0.3s ease;
+            font-weight: bold;
         }
-        .options .btn-sim {
+        .options .btn-compra {
                 display: block;
     width: 100%;
     background-color: #28a745; /* Cor do fundo verde */
@@ -86,11 +80,10 @@
     margin: 10px 0;
     cursor: pointer;
         }
-        .options .btn-nao {
-            background-color: #dc3545;
-                           display: block;
+        .options .btn-nao2 {
+                display: block;
     width: 100%;
-    background-color: #dc3545; /* Cor do fundo vermelho */
+    background-color: #dc3545; /* Cor do fundo verde */
     color: white;
     font-size: 30px;
     font-weight: bold;
@@ -101,6 +94,14 @@
     margin: 10px 0;
     cursor: pointer;
         }
+        .btn-sim {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-nao {
+            background-color: #dc3545;
+            color: white;
+        }
         .options button:hover {
             opacity: 0.9;
         }
@@ -108,7 +109,7 @@
             display: none;
         }
         .bible-quote {
-            font-size: 1.2em;
+            font-size: 1.2rem;
             margin-top: 20px;
             font-style: italic;
         }
@@ -116,163 +117,85 @@
 </head>
 <body>
 
-    <!-- Pergunta 1 -->
     <section id="pergunta1" class="section">
-        <div class="headline">JESUS MORREU POR TI, NÃO IGNORE A MENSAGEM QUE ELE TEM PRA VOCÊ</div>
-        <div class="question">Você acredita que Deus ouve cada uma das suas orações?</div>
-            <div class="options">
-            <button onclick="nextQuestion('pergunta2')" class="btn-sim">Sim, Eu acredito!</button>
-            <button onclick="nextQuestion('pergunta2')" class="btn-nao">Não</button>
+        <div class="headline">VOCÊ JÁ SE SENTIU SEM SAÍDA? COMO SE NADA DESSE CERTO?</div>
+        <div class="question">(Saúde, Dívidas, Relacionamentos, Espiritual, Depressão, Ansiedade, Tristeza e outras...)</div>
+        <div class="options">
+            <button onclick="nextQuestion('pergunta2')" class="btn-sim">SIM! Isso acontece comigo</button>
+            <button onclick="nextQuestion('pergunta2')" class="btn-nao">NÃO! Minha vida é perfeita.</button>
         </div>
         <div class="bible-quote">"E tudo o que pedirem em oração, se crerem, vocês receberão." - Mateus 21:22</div>
-                <!-- Pixel Facebook -->
-        <script>fbq('track', 'PageView', {content_name: 'Pergunta 1'});</script>
-        </section>
+    </section>
 
-    <!-- Pergunta 2 -->
     <section id="pergunta2" class="section hidden">
-        <div class="question">Você gostaria de saber a maneira CERTA de orar e alcançar suas bênçãos?</div>
+        <div class="headline">Essa oração traz bênçãos IMEDIATAS e já transformou a vida de milhares de pessoas, trazendo CURA, PROSPERIDADE e PAZ. Você quer receber o Guia Completo "O Poder da Oração milagrosa de 1 minuto" totalmente GRÁTIS em seu E-mail e mudar sua vida também?</div>
         <div class="options">
-          <button onclick="fbq('track', 'AddToWishlist'); nextQuestion('pergunta3')" class="btn-sim">Sim, claro!</button>
-          <button onclick="nextQuestion('pergunta3')" class="btn-nao">Eu não preciso</button>
+            <button onclick="fbq('track', 'AddToWishlist'); nextQuestion('pergunta3')" class="btn-sim">SIM, quero receber minha bênção agora!</button>
+            <button onclick="nextQuestion('pergunta3')" class="btn-nao">Eu não preciso</button>
         </div>
-       <div class="bible-quote">"Peçam, e lhes será dado; busquem, e encontrarão; batam, e a porta será aberta." - Mateus 7:7</div> 
-               <!-- Pixel Facebook -->
-        <script>fbq('track', 'PageView', {content_name: 'Pergunta 2'});</script>
+        <div class="bible-quote">"Peçam, e lhes será dado..." - Mateus 7:7</div>
     </section>
 
-    <!-- Pergunta 3 -->
     <section id="pergunta3" class="section hidden">
-        <div class="question">Você acredita que Deus pode mudar sua situação financeira?</div>
+        <div class="headline">Fazendo essa Oração Milagrosa de 1 minuto por 7 dias, verá sua vida ser transformada! Você se compromete a realizá-la durante 7 dias?</div>
         <div class="options">
-          <button onclick="fbq('track', 'CompleteRegistration'); nextQuestion('pergunta4')" class="btn-sim">Sim, eu creio!</button>
-          <button onclick="nextQuestion('pergunta4')" class="btn-nao">Eu não preciso</button>
+            <button onclick="fbq('track', 'Donate'); nextQuestion('pergunta4')" class="btn-sim">SIM, quero essa transformação agora!</button>
+            <button onclick="nextQuestion('pergunta4')" class="btn-nao">NÃO, prefiro continuar sofrendo</button>
         </div>
-        <div class="bible-quote">"E o meu Deus suprirá todas as necessidades de vocês, de acordo com as suas gloriosas riquezas em Cristo Jesus." - Filipenses 4:19</div>
-                <!-- Pixel Facebook -->
-        <script>fbq('track', 'PageView', {content_name: 'Pergunta 3'});</script>
+        <div class="bible-quote">"O meu Deus suprirá todas as necessidades..." - Filipenses 4:19</div>
     </section>
 
-    <!-- Pergunta 4 -->
     <section id="pergunta4" class="section hidden">
-        <div class="question">Você gostaria de aprender a orar por sua saúde e receber cura?</div>
+        <div class="headline">Ana Maria Braga no Fantástico- Eu estava perdida, sem esperança e afundada na tristeza por causa do Câncer. Fiz essa oração e minha vida mudou completamente! Você quer viver essa transformação também?</div>
         <div class="options">
-          <button onclick="fbq('track', 'Contact'); nextQuestion('pergunta5')" class="btn-sim">Sim, desejo aprender!</button>
-            <button onclick="nextQuestion('pergunta5')" class="btn-nao">Eu não preciso</button>
+            <button onclick="nextQuestion('pergunta5')" class="btn-sim">SIM, quero mudar minha vida hoje mesmo!</button>
+            <button onclick="nextQuestion('pergunta5')" class="btn-nao">NÃO, prefiro continuar nessa situação</button>
         </div>
-        <div class="bible-quote">"O Senhor o sustentará no leito da enfermidade; tu o restaurarás da sua cama de doença." - Salmos 41:3</div>
-                <!-- Pixel Facebook -->
-        <script>fbq('track', 'PageView', {content_name: 'Pergunta 4'});</script>
+        <div class="bible-quote">"O Senhor o sustentará..." - Salmos 41:3</div>
     </section>
 
-    <!-- Pergunta 5 -->
     <section id="pergunta5" class="section hidden">
-        <div class="question">Gostaria de saber como orar por sua família e fortalecer seus laços?</div>
-        <div class="options">
-          <button onclick="fbq('track', 'CustomizeProduct'); nextQuestion('pergunta6')" class="btn-sim">Sim, desejo orar pela minha família.</button>
-           <button onclick="nextQuestion('pergunta6')" class="btn-nao">Eu não preciso</button>
-        </div>
-        <div class="bible-quote">"Crê no Senhor Jesus, e serás salvo, tu e tua casa." - Atos 16:31</div>
-                <!-- Pixel Facebook -->
-        <script>fbq('track', 'PageView', {content_name: 'Pergunta 5'});</script>
-    </section>
+        <div class="headline">Sua bênção já está sendo preparada! Só falta UM ÚNICO PASSO para receber o Guia Completo "O Poder da Oração milagrosa de 1 minuto" em seu E-mail, totalmente GRÁTIS...</div>
+        <div class="question">Ajude com qualquer valor nessa missão de levar a palavra de Deus para o máximo de pessoas</div>
+        <div class="question">Ao doar, você receberá totalmente GRÁTIS:</div>
+        <div class="question">✅ Guia da Oração Milagrosa de 1 Minuto no valor de R$ 97,00</div>
+        <div class="question">✅ Bônus 1: Guia da Prosperidade Dívina no valor de R$ 67,00</div>
+        <div class="question">✅ Bônus 2: Diário de Gratidão e Fé no valor de R$ 47,00</div>
+        <div class="question">✅ Bônus Surpresa!</div>
 
-    <!-- Pergunta 6 -->
-    <section id="pergunta6" class="section hidden">
-        <div class="question">Você acredita que Deus pode transformar qualquer situação quando você ora com fé?</div>
-        <div class="options">
-          <button onclick="fbq('track', 'Schedule'); nextQuestion('pergunta7')" class="btn-sim">Sim, tenho fé!</button>
-          <button onclick="nextQuestion('pergunta7')" class="btn-nao">Eu não preciso</button>
-        </div>
-        <div class="bible-quote">"Tudo é possível ao que crê." - Marcos 9:23</div>
-                <!-- Pixel Facebook -->
-        <script>fbq('track', 'PageView', {content_name: 'Pergunta 6'});</script>
-    </section>
-
-    <!-- Pergunta 7 -->
-    <section id="pergunta7" class="section hidden">
-        <div class="question">Você gostaria de receber um guia completo para aprender a orar corretamente em todas as áreas da sua vida?</div>
-        <div class="options">
-          <button onclick="fbq('track', 'SubmitApplication'); nextQuestion('pergunta8')" class="btn-sim">Sim, eu quero!</button>
-            <button onclick="nextQuestion('pergunta8')" class="btn-nao">Eu não preciso</button>
-        </div>
-                <!-- Pixel Facebook -->
-        <script>fbq('track', 'PageView', {content_name: 'Pergunta 7'});</script>
-    </section>
-
-    <!-- Pergunta 8 -->
-    <section id="pergunta8" class="section hidden">
-        <div class="question">Imagine transformar sua vida com orações específicas para cada situação?</div>
-        <div class="options">
-          <button onclick="fbq('track', 'Donate'); nextQuestion('pergunta9')" class="btn-sim">Sim, eu gostaria!</button>
-          <button onclick="nextQuestion('pergunta9')" class="btn-nao">Eu não preciso</button>
-        </div>
-                <!-- Pixel Facebook -->
-        <script>fbq('track', 'PageView', {content_name: 'Pergunta 8'});</script>
-    </section>
-
-    <!-- Pergunta 9 -->
-    <section id="pergunta9" class="section hidden">
-        <div class="question">Você acaba de Ganhar o Manual Manifestação de Deus, um material com orações poderosas para cada área da sua vida. Quer receber?</div>
-        <div class="options">
-             <button onclick="nextQuestion('pergunta10')" class="btn-sim">Sim, quero receber Agora!</button>
-            <button onclick="nextQuestion('pergunta10')" class="btn-nao">Eu não preciso</button>
-        </div>
-                <!-- Pixel Facebook -->
-        <script>fbq('track', 'PageView', {content_name: 'Pergunta 9'});</script>
-    </section>
-
- <!-- Pergunta 10 -->
-<section id="pergunta10" class="section hidden">
-    <div class="logo" style="margin-top: 650px; padding-top: 20px; text-align: center;">
-        <!-- Logo pode ser ajustado aqui -->
-    </div>
-
-    <div class="question" style="margin-top: 30px;">
-        O valor original desse material é de R$ 147,00, mas você não pagará nem 100, nem 50 reais. Doe o valor que Deus tocar em seu coração e ajudar a divulgar a Palavra de Deus. Receba Essa Benção Agora!
-    </div>
-    
-    <div class="options" style="margin-top: 20px;">
-        <a href="https://pay.kiwify.com.br/v0sZA2s" class="btn-sim">
+            <div class="options" style="margin-top: 20px;">
+        <a href="https://pay.kiwify.com.br/v0sZA2s" class="btn-compra">
              Doe R$ 10,00 - Enviar a palavra de Deus para mais 1.000 pessoas!
         </a>
-        <a href="https://pay.kiwify.com.br/s2lXf8o" class="btn-sim">
+        <a href="https://pay.kiwify.com.br/s2lXf8o" class="btn-compra">
              Doe R$ 20,00 - Envie a palavra de Deus para mais 2.000 pessoas!
         </a>
-        <a href="https://pay.kiwify.com.br/ECyZN42" class="btn-sim">
+        <a href="https://pay.kiwify.com.br/ECyZN42" class="btn-compra">
             Doe R$ 30,00 - Envie a palavra de Deus para mais 3.000 pessoas!
         </a>
-        <a href="https://pay.kiwify.com.br/0xT2yH0" class="btn-sim">
+        <a href="https://pay.kiwify.com.br/0xT2yH0" class="btn-compra">
             Doe R$ 40,00 - Envie a palavra de Deus para mais 4.000 pessoas!
         </a>
-        <a href="https://pay.kiwify.com.br/DfQuX2m" class="btn-sim">
+        <a href="https://pay.kiwify.com.br/DfQuX2m" class="btn-compra">
             Doe R$ 50,00 - Envie a palavra de Deus para mais 5.000 pessoas!
         </a>
-        <a href="https://pay.kiwify.com.br/CsdUJiL" class="btn-sim">
+        <a href="https://pay.kiwify.com.br/CsdUJiL" class="btn-compra">
             Doe R$ 100,00 - Envie a palavra de Deus para mais 10.000 pessoas!
         </a>
-        <a href="https://pay.kiwify.com.br/ZnVSUV5" class="btn-nao">
+        <a href="https://pay.kiwify.com.br/ZnVSUV5" class="btn-nao2">
              Deus Sabe que no momento eu não posso contribuir com nenhum desses valores.
         </a>
     </div>
+    </section>
 
-   
-    <div class="bible-quote" style="margin-top: 20px;">
-        "Dai, e ser-vos-á dado; boa medida, recalcada, sacudida e transbordante..." - Lucas 6:38
-    </div>
-
-    <!-- Pixel Facebook -->
-    <script>fbq('track', 'PageView', {content_name: 'Pergunta 10'});</script>
-</section>
-
-
-<script>
-    function nextQuestion(nextSectionId) {
-        document.querySelector('.section:not(.hidden)').classList.add('hidden');
-        document.getElementById(nextSectionId).classList.remove('hidden');
-    }   
-</script>
-
+    <script>
+        function nextQuestion(nextId) {
+            document.querySelectorAll('.section').forEach(sec => sec.classList.add('hidden'));
+            document.getElementById(nextId).classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+    </script>
 
 </body>
 </html>
