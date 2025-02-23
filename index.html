@@ -1,207 +1,41 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <script
+  <link rel="preconnect" href="https://scripts.converteai.net">
+  <link rel="preload" href="https://scripts.converteai.net/ae3be4ad-1026-47e6-b71a-3374c1f6f8a8/players/67b80d36a374a05a145d66fa/player.js" as="script">
+  <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer/v1/smartplayer.min.js" as="script">
+  <link rel="preload" href="https://cdn.converteai.net/ae3be4ad-1026-47e6-b71a-3374c1f6f8a8/67b80d3133bfecabcd27a5ba/main.m3u8" as="fetch">
+  <link rel="dns-prefetch" href="https://cdn.converteai.net">
+  <link rel="dns-prefetch" href="https://scripts.converteai.net">
+  <link rel="dns-prefetch" href="https://images.converteai.net">
+  <link rel="dns-prefetch" href="https://api.vturb.com.br">
+  <script
   src="https://cdn.utmify.com.br/scripts/utms/latest.js"
   data-utmify-prevent-subids
   async
   defer
 ></script>
-
-    <script>
-  window.pixelId = "679f7f7abb0c530bd1ca3ce9";
+<script>
+  window.pixelId = "67bb3be4572a3b844fc896ed";
   var a = document.createElement("script");
   a.setAttribute("async", "");
   a.setAttribute("defer", "");
   a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
   document.head.appendChild(a);
 </script>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aumente sua Fé e Transforme sua Vida</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-        body {
-            scroll-behavior: smooth;
-            background: url('./c1.png') no-repeat center center fixed;
-            background-size: cover;
-            color: #fff;
-        }
-        .section {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.5);
-        }
-        .headline {
-            font-size: 2rem;
-            color: #ffd700;
-            margin-bottom: 20px;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-        .question {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-        .options {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            max-width: 400px;
-        }
-        .options button {
-            margin: 10px 0;
-            padding: 15px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            width: 100%;
-            border: none;
-            border-radius: 5px;
-            transition: opacity 0.3s ease;
-            font-weight: bold;
-        }
-        .options .btn-compra {
-                display: block;
-    width: 100%;
-    background-color: #28a745; /* Cor do fundo verde */
-    color: white;
-    font-size: 30px;
-    font-weight: bold;
-    text-align: center;
-    padding: 15px;
-    border-radius: 8px;
-    text-decoration: none; /* Remove o sublinhado */
-    margin: 10px 0;
-    cursor: pointer;
-        }
-        .options .btn-nao2 {
-                display: block;
-    width: 100%;
-    background-color: #dc3545; /* Cor do fundo verde */
-    color: white;
-    font-size: 30px;
-    font-weight: bold;
-    text-align: center;
-    padding: 15px;
-    border-radius: 8px;
-    text-decoration: none; /* Remove o sublinhado */
-    margin: 10px 0;
-    cursor: pointer;
-        }
-        .btn-sim {
-            background-color: #28a745;
-            color: white;
-        }
-        .btn-nao {
-            background-color: #dc3545;
-            color: white;
-        }
-        .options button:hover {
-            opacity: 0.9;
-        }
-        .hidden {
-            display: none;
-        }
-        .bible-quote {
-            font-size: 1.2rem;
-            margin-top: 20px;
-            font-style: italic;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="format-detection" content="telephone=no">
+  <title>Ouvir Agora 👉👉👉</title>
 </head>
-<body>
-
-    <section id="pergunta1" class="section">
-        <div class="headline">VOCÊ JÁ SE SENTIU SEM SAÍDA? COMO SE NADA DESSE CERTO?</div>
-        <div class="question">(Saúde, Dívidas, Relacionamentos, Espiritual, Depressão, Ansiedade, Tristeza e outras...)</div>
-        <div class="options">
-            <button onclick="nextQuestion('pergunta2')" class="btn-sim">SIM! Isso acontece comigo</button>
-            <button onclick="nextQuestion('pergunta2')" class="btn-nao">NÃO! Minha vida é perfeita.</button>
-        </div>
-        <div class="bible-quote">"E tudo o que pedirem em oração, se crerem, vocês receberão." - Mateus 21:22</div>
-    </section>
-
-    <section id="pergunta2" class="section hidden">
-        <div class="headline">Essa oração traz bênçãos IMEDIATAS e já transformou a vida de milhares de pessoas, trazendo CURA, PROSPERIDADE e PAZ. Você quer receber o Guia Completo "O Poder da Oração milagrosa de 1 minuto" totalmente GRÁTIS em seu E-mail e mudar sua vida também?</div>
-        <div class="options">
-            <button onclick="fbq('track', 'AddToWishlist'); nextQuestion('pergunta3')" class="btn-sim">SIM, quero receber minha bênção agora!</button>
-            <button onclick="nextQuestion('pergunta3')" class="btn-nao">Eu não preciso</button>
-        </div>
-        <div class="bible-quote">"Peçam, e lhes será dado..." - Mateus 7:7</div>
-    </section>
-
-    <section id="pergunta3" class="section hidden">
-        <div class="headline">Fazendo essa Oração Milagrosa de 1 minuto por 7 dias, verá sua vida ser transformada! Você se compromete a realizá-la durante 7 dias?</div>
-        <div class="options">
-            <button onclick="fbq('track', 'Donate'); nextQuestion('pergunta4')" class="btn-sim">SIM, quero essa transformação agora!</button>
-            <button onclick="nextQuestion('pergunta4')" class="btn-nao">NÃO, prefiro continuar sofrendo</button>
-        </div>
-        <div class="bible-quote">"O meu Deus suprirá todas as necessidades..." - Filipenses 4:19</div>
-    </section>
-
-    <section id="pergunta4" class="section hidden">
-        <div class="headline">Ana Maria Braga no Fantástico- Eu estava perdida, sem esperança e afundada na tristeza por causa do Câncer. Fiz essa oração e minha vida mudou completamente! Você quer viver essa transformação também?</div>
-        <div class="options">
-            <button onclick="nextQuestion('pergunta5')" class="btn-sim">SIM, quero mudar minha vida hoje mesmo!</button>
-            <button onclick="nextQuestion('pergunta5')" class="btn-nao">NÃO, prefiro continuar nessa situação</button>
-        </div>
-        <div class="bible-quote">"O Senhor o sustentará..." - Salmos 41:3</div>
-    </section>
-
-    <section id="pergunta5" class="section hidden">
-        <div class="headline">Sua bênção já está sendo preparada! Só falta UM ÚNICO PASSO para receber o Guia Completo "O Poder da Oração milagrosa de 1 minuto" em seu E-mail, totalmente GRÁTIS...</div>
-        <div class="question">Ajude com qualquer valor nessa missão de levar a palavra de Deus para o máximo de pessoas</div>
-        <div class="question">Ao doar, você receberá totalmente GRÁTIS:</div>
-        <div class="question">✅ Guia da Oração Milagrosa de 1 Minuto no valor de R$ 97,00</div>
-        <div class="question">✅ Bônus 1: Guia da Prosperidade Dívina no valor de R$ 67,00</div>
-        <div class="question">✅ Bônus 2: Diário de Gratidão e Fé no valor de R$ 47,00</div>
-        <div class="question">✅ Bônus Surpresa!</div>
-
-            <div class="options" style="margin-top: 20px;">
-        <a href="https://pay.kiwify.com.br/v0sZA2s" class="btn-compra">
-             Doe R$ 10,00 - Enviar a palavra de Deus para mais 1.000 pessoas!
-        </a>
-        <a href="https://pay.kiwify.com.br/s2lXf8o" class="btn-compra">
-             Doe R$ 20,00 - Envie a palavra de Deus para mais 2.000 pessoas!
-        </a>
-        <a href="https://pay.kiwify.com.br/ECyZN42" class="btn-compra">
-            Doe R$ 30,00 - Envie a palavra de Deus para mais 3.000 pessoas!
-        </a>
-        <a href="https://pay.kiwify.com.br/0xT2yH0" class="btn-compra">
-            Doe R$ 40,00 - Envie a palavra de Deus para mais 4.000 pessoas!
-        </a>
-        <a href="https://pay.kiwify.com.br/DfQuX2m" class="btn-compra">
-            Doe R$ 50,00 - Envie a palavra de Deus para mais 5.000 pessoas!
-        </a>
-        <a href="https://pay.kiwify.com.br/CsdUJiL" class="btn-compra">
-            Doe R$ 100,00 - Envie a palavra de Deus para mais 10.000 pessoas!
-        </a>
-        <a href="https://pay.kiwify.com.br/ZnVSUV5" class="btn-nao2">
-             Deus Sabe que no momento eu não posso contribuir com nenhum desses valores.
-        </a>
-    </div>
-    </section>
-
-    <script>
-        function nextQuestion(nextId) {
-            document.querySelectorAll('.section').forEach(sec => sec.classList.add('hidden'));
-            document.getElementById(nextId).classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-        
-    </script>
-
+<body style="margin:0">
+  <!-- VSL -->
+  <div id="vid_67b80d36a374a05a145d66fa" style="position:relative;width:100%;padding-top:178.2178%;"></div>
+  <script>
+    var s = document.createElement("script");
+    s.src = "https://scripts.converteai.net/ae3be4ad-1026-47e6-b71a-3374c1f6f8a8/players/67b80d36a374a05a145d66fa/player.js";
+    s.async = true;
+    document.head.appendChild(s);
+  </script>
 </body>
 </html>
