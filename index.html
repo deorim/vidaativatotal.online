@@ -49,12 +49,8 @@
   <!-- Estilos CSS -->
   <style>
     /* Reset básico */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    /* Bloqueia overscroll e pull-to-refresh em navegadores modernos */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* Bloqueia overscroll/pull-to-refresh */
     html, body {
       background-color: #000;
       font-family: Arial, sans-serif;
@@ -63,9 +59,8 @@
       height: 100%;
     }
     /* Tenta bloquear gestos de toque (pode não funcionar 100% em iOS) */
-    body {
-      touch-action: none;
-    }
+    body { touch-action: none; }
+    
     header, main, footer {
       width: 100%;
       padding: 1rem;
@@ -122,7 +117,9 @@
       height: 100vh;
       background: #000;
     }
+    /* Força o container do player a ocupar 100% da tela */
     #vid_67b80d36a374a05a145d66fa {
+      position: relative;
       width: 100%;
       height: 100%;
     }
@@ -141,10 +138,8 @@
     history.pushState({page: 1}, "", "");
     window.onpopstate = function(e) {
       if (!videoStarted) {
-        // Se o vídeo ainda não iniciou, simula o clique em "Assistir Vídeo"
         document.getElementById("play-button").click();
       } else {
-        // Se o vídeo já iniciou, empurra o estado novamente para bloquear o voltar
         history.pushState({page: 1}, "", "");
       }
     };
@@ -164,7 +159,8 @@
       <img id="video-placeholder" class="video-placeholder" src="https://vidaativatotal.online/1200x630.png" alt="Imagem de pré-visualização do vídeo">
       <button class="play-button" id="play-button">▶️ Assistir Vídeo</button>
       <div id="player-wrapper">
-        <div id="vid_67b80d36a374a05a145d66fa"></div>
+        <!-- Container do player com estilo para ocupar 100% da tela -->
+        <div id="vid_67b80d36a374a05a145d66fa" style="position:relative;width:100%;height:100%;"></div>
       </div>
     </div>
     
@@ -190,9 +186,9 @@
       // Oculta o placeholder e o botão
       placeholder.style.display = "none";
       playBtn.style.display = "none";
-      // Remove cabeçalho, conteúdo e rodapé para deixar apenas o vídeo em tela cheia
+      // Remove header, main e footer para exibir somente o player
       if (header) header.style.display = "none";
-      if (main) main.style.display = "none";
+      if (main)   main.style.display = "none";
       if (footer) footer.style.display = "none";
       // Exibe o container do player
       playerWrapper.style.display = "block";
