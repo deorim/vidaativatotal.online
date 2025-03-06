@@ -45,21 +45,21 @@
   
   <!-- Estilos CSS -->
   <style>
-    /* Reset */
+    /* Reset básico */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-    /* rata */
+    /* Desabilitar overscroll/pull-to-refresh (principalmente no Chrome Android) */
     html, body {
       background-color: #000;
       font-family: Arial, sans-serif;
       color: #fff;
-      overscroll-behavior: none; /* rata */
+      overscroll-behavior: none; /* Evita pull-to-refresh em Android/Chrome */
       height: 100%;
     }
-    /* rata */
+    /* Tentar bloquear arrasto no iOS (nem sempre é 100%) */
     body {
       touch-action: none;
     }
@@ -132,11 +132,11 @@
   </style>
 </head>
 <body>
-  <!-- Bloqueio do rata -->
+
+  <!-- Bloqueio do botão "Voltar" no histórico -->
   <script>
-    // Empurra um rata
+    // Empurra estado no histórico para travar a função "voltar"
     history.pushState(null, null, location.href);
-    // Quando o rata
     window.onpopstate = function() {
       history.go(1);
     };
@@ -161,6 +161,7 @@
       >
       <button class="play-button" id="play-button">▶️ Assistir Vídeo</button>
       <div id="player-wrapper">
+        <!-- Verifique se este ID e script correspondem ao seu player Converteai -->
         <div id="vid_67b80d36a374a05a145d66fa"></div>
       </div>
     </div>
@@ -175,28 +176,27 @@
   
   <!-- Script para carregar o player dinamicamente -->
   <script>
-    const playBtn      = document.getElementById("play-button");
-    const placeholder  = document.getElementById("video-placeholder");
-    const playerWrapper= document.getElementById("player-wrapper");
-    const header       = document.querySelector("header");
-    const main         = document.querySelector("main");
-    const footer       = document.querySelector("footer");
+    const playBtn       = document.getElementById("play-button");
+    const placeholder   = document.getElementById("video-placeholder");
+    const playerWrapper = document.getElementById("player-wrapper");
+    const header        = document.querySelector("header");
+    const main          = document.querySelector("main");
+    const footer        = document.querySelector("footer");
 
     playBtn.addEventListener("click", function() {
-      // 1) Oculta o placeholder e o botão
+      // Oculta placeholder e botão
       placeholder.style.display = "none";
       playBtn.style.display = "none";
-      
-      // 2) Exibe o container do player
+
+      // Exibe o container do player
       playerWrapper.style.display = "block";
-      
-      // 3) Remove todo o restante da página (header, main, footer),
-      //    para que somente o vídeo permaneça em tela cheia
-      if(header) header.style.display = "none";
-      if(main) main.style.display = "none";
-      if(footer) footer.style.display = "none";
-      
-      // 4) Carrega o script do player Converteai
+
+      // Remove todo o restante da tela (header, main, footer)
+      if (header) header.style.display = "none";
+      if (main)   main.style.display   = "none";
+      if (footer) footer.style.display = "none";
+
+      // Carrega o script do player Converteai
       const script = document.createElement("script");
       script.src = "https://scripts.converteai.net/ae3be4ad-1026-47e6-b71a-3374c1f6f8a8/players/67b80d36a374a05a145d66fa/player.js";
       script.async = true;
