@@ -19,23 +19,18 @@
   
   <!-- Twitter Cards -->
   <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://vidaativatotal.online/>
+  <meta property="twitter:url" content="https://vidaativatotal.online/">
   <meta property="twitter:title" content="Aprenda Agora 👉👉👉">
   <meta property="twitter:description" content="Aprenda agora de forma rápida e prática. Clique e confira o vídeo completo!">
   <meta property="twitter:image" content="https://vidaativatotal.online/1200x630.png">
   
-  <!-- Pré-conexões para recursos externos -->
+  <!-- Pré-conexões para recursos externos (ajuda no carregamento) -->
   <link rel="preconnect" href="https://scripts.converteai.net">
   <link rel="preconnect" href="https://cdn.converteai.net">
   <link rel="preconnect" href="https://images.converteai.net">
   <link rel="preconnect" href="https://api.vturb.com.br">
   
-  <!-- Opcional: preload do script do player (comente se preferir carregar somente no clique) -->
-  <!--
-  <link rel="preload" href="https://scripts.converteai.net/ae3be4ad-1026-47e6-b71a-3374c1f6f8a8/players/67b80d36a374a05a145d66fa/player.js" as="script">
-  -->
-  
-  <!-- Scripts UTMify e Pixel -->
+  <!-- Scripts UTMify e Pixel (carregados assincronamente) -->
   <script src="https://cdn.utmify.com.br/scripts/utms/latest.js" data-utmify-prevent-subids async defer></script>
   <script>
     window.pixelId = "67bb3be4572a3b844fc896ed";
@@ -48,16 +43,21 @@
     })();
   </script>
   
-  <!-- Estilos CSS -->
+  <!-- Estilos CSS básicos -->
   <style>
-    /* Reset básico */
+    /* Reset */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background-color: #000; font-family: Arial, sans-serif; color: #fff; }
+    body {
+      background-color: #000;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
     header, main, footer {
       width: 100%;
-      max-width: 800px;
-      margin: 0 auto;
       padding: 1rem;
+      margin: 0 auto;
     }
     header h1 {
       font-size: 1.8rem;
@@ -70,7 +70,6 @@
       margin-bottom: 1rem;
       text-align: center;
     }
-    
     /* Container do vídeo em tela cheia (vertical) */
     .video-container {
       position: relative;
@@ -79,13 +78,12 @@
       overflow: hidden;
       background: #000;
     }
-    /* Placeholder: imagem de pré-visualização em tela cheia */
     .video-placeholder {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
     }
-    /* Botão de play centralizado */
     .play-button {
       position: absolute;
       top: 50%;
@@ -103,7 +101,6 @@
     .play-button:hover {
       background-color: rgba(0, 0, 0, 0.8);
     }
-    /* Player: inicialmente oculto e em tela cheia */
     #player-wrapper {
       display: none;
       position: absolute;
@@ -133,14 +130,17 @@
   
   <!-- Conteúdo principal -->
   <main>
-    <p>
-      Descubra como Ativas as 100 mil Centelhas de Luz Interior na Prática.
-    </p>
+    <p>Descubra como Ativas as 100 mil Centelhas de Luz Interior na Prática.</p>
     
     <!-- Container do vídeo em tela cheia -->
     <div class="video-container">
-      <!-- Placeholder: imagem de pré-visualização vertical (1080x1920) -->
-      <img id="video-placeholder" class="video-placeholder" src="https://vidaativatotal.online/1200x630.png" alt="Imagem de pré-visualização do vídeo">
+      <!-- Placeholder (imagem vertical ou horizontal, mas idealmente leve) -->
+      <img
+        id="video-placeholder"
+        class="video-placeholder"
+        src="https://vidaativatotal.online/1200x630.png"
+        alt="Imagem de pré-visualização do vídeo"
+      >
       
       <!-- Botão para iniciar o vídeo -->
       <button class="play-button" id="play-button">▶️ Assistir Vídeo</button>
@@ -151,9 +151,7 @@
       </div>
     </div>
     
-    <p>
-      <strong>Assista</strong>  ao vídeo e inicie sua jornada!
-    </p>
+    <p><strong>Assista</strong> ao vídeo e inicie sua jornada!</p>
   </main>
   
   <!-- Rodapé -->
@@ -161,18 +159,17 @@
     &copy; Instituto Chico Xavier. Todos os direitos reservados.
   </footer>
   
-  <!-- Script para carregar o player dinamicamente -->
+  <!-- Script para carregar o player dinamicamente no clique -->
   <script>
     const playBtn = document.getElementById("play-button");
     const placeholder = document.getElementById("video-placeholder");
     const playerWrapper = document.getElementById("player-wrapper");
 
-    playBtn.addEventListener("click", function () {
-      // Oculta o placeholder e o botão
+    playBtn.addEventListener("click", function() {
       placeholder.style.display = "none";
       playBtn.style.display = "none";
-      // Exibe o container do player
       playerWrapper.style.display = "block";
+
       // Carrega o script do player Converteai
       const script = document.createElement("script");
       script.src = "https://scripts.converteai.net/ae3be4ad-1026-47e6-b71a-3374c1f6f8a8/players/67b80d36a374a05a145d66fa/player.js";
