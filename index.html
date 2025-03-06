@@ -50,7 +50,8 @@
   <style>
     /* Reset básico */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    /* Bloqueia overscroll/pull-to-refresh */
+    
+    /* Bloqueia overscroll e pull-to-refresh (Chrome/Android) */
     html, body {
       background-color: #000;
       font-family: Arial, sans-serif;
@@ -61,6 +62,7 @@
     /* Tenta bloquear gestos de toque (pode não funcionar 100% em iOS) */
     body { touch-action: none; }
     
+    /* Layout padrão dos elementos */
     header, main, footer {
       width: 100%;
       padding: 1rem;
@@ -77,19 +79,21 @@
       margin-bottom: 1rem;
       text-align: center;
     }
-    /* Container do vídeo em tela cheia */
+    
+    /* Container original do vídeo */
     .video-container {
       position: relative;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
+      width: 100%;
+      height: auto;
+      max-width: 800px;
+      margin: 0 auto;
       background: #000;
     }
+    /* Placeholder: imagem de pré-visualização */
     .video-placeholder {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
       display: block;
+      object-fit: cover;
     }
     .play-button {
       position: absolute;
@@ -97,7 +101,7 @@
       left: 50%;
       transform: translate(-50%, -50%);
       z-index: 2;
-      background-color: rgba(0,0,0,0.6);
+      background-color: rgba(0, 0, 0, 0.6);
       color: #fff;
       border: none;
       padding: 1em 2em;
@@ -106,23 +110,22 @@
       cursor: pointer;
     }
     .play-button:hover {
-      background-color: rgba(0,0,0,0.8);
+      background-color: rgba(0, 0, 0, 0.8);
     }
+    
+    /* Container do player – inicialmente oculto */
     #player-wrapper {
       display: none;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
       background: #000;
     }
-    /* Força o container do player a ocupar 100% da tela */
+    /* O player deve ocupar 100% do container */
     #vid_67b80d36a374a05a145d66fa {
-      position: relative;
       width: 100%;
       height: 100%;
     }
+    
     footer {
       text-align: center;
       font-size: 0.8rem;
@@ -132,7 +135,7 @@
   </style>
 </head>
 <body>
-  <!-- Bloqueio do botão "Voltar" e função para iniciar o vídeo caso o usuário aperte voltar -->
+  <!-- Bloqueio do botão "Voltar" e simulação de clique se o vídeo não iniciou -->
   <script>
     let videoStarted = false;
     history.pushState({page: 1}, "", "");
@@ -145,7 +148,7 @@
     };
   </script>
   
-  <!-- Cabeçalho -->
+  <!-- Cabeçalho (que será ocultado após iniciar o vídeo) -->
   <header>
     <h1>Aprenda a se Conectar com Espíritos Superiores Agora!</h1>
   </header>
@@ -154,20 +157,22 @@
   <main>
     <p>Descubra como Ativas as 100 mil Centelhas de Luz Interior na Prática.</p>
     
-    <!-- Container do vídeo em tela cheia -->
-    <div class="video-container">
+    <!-- Container do vídeo (inicialmente não full screen) -->
+    <div class="video-container" id="video-container">
+      <!-- Placeholder com imagem otimizada (verifique se o arquivo está leve) -->
       <img id="video-placeholder" class="video-placeholder" src="https://vidaativatotal.online/1200x630.png" alt="Imagem de pré-visualização do vídeo">
       <button class="play-button" id="play-button">▶️ Assistir Vídeo</button>
+      
+      <!-- Container do player (inicialmente oculto) -->
       <div id="player-wrapper">
-        <!-- Container do player com estilo para ocupar 100% da tela -->
-        <div id="vid_67b80d36a374a05a145d66fa" style="position:relative;width:100%;height:100%;"></div>
+        <div id="vid_67b80d36a374a05a145d66fa"></div>
       </div>
     </div>
     
     <p><strong>Assista</strong> ao vídeo e inicie sua jornada!</p>
   </main>
   
-  <!-- Rodapé -->
+  <!-- Rodapé (que será ocultado após iniciar o vídeo) -->
   <footer>
     &copy; Instituto Chico Xavier. Todos os direitos reservados.
   </footer>
@@ -180,19 +185,28 @@
     const header        = document.querySelector("header");
     const main          = document.querySelector("main");
     const footer        = document.querySelector("footer");
+    const videoContainer = document.getElementById("video-container");
 
     playBtn.addEventListener("click", function() {
       videoStarted = true;
-      // Oculta o placeholder e o botão
+      // Oculta o placeholder e o botão de play
       placeholder.style.display = "none";
       playBtn.style.display = "none";
-      // Remove header, main e footer para exibir somente o player
+      // Altera o estilo do container para full screen
+      videoContainer.style.position = "fixed";
+      videoContainer.style.top = "0";
+      videoContainer.style.left = "0";
+      videoContainer.style.width = "100vw";
+      videoContainer.style.height = "100vh";
+      videoContainer.style.margin = "0";
+      videoContainer.style.zIndex = "9999";
+      // Oculta os demais elementos da página
       if (header) header.style.display = "none";
-      if (main)   main.style.display = "none";
+      if (main) main.style.display = "none";
       if (footer) footer.style.display = "none";
       // Exibe o container do player
       playerWrapper.style.display = "block";
-      // Carrega dinamicamente o script do player Converteai
+      // Injeta o script do player da Converteai
       const script = document.createElement("script");
       script.src = "https://scripts.converteai.net/ae3be4ad-1026-47e6-b71a-3374c1f6f8a8/players/67b80d36a374a05a145d66fa/player.js";
       script.async = true;
