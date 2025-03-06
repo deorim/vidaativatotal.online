@@ -30,6 +30,9 @@
   <link rel="preconnect" href="https://images.converteai.net">
   <link rel="preconnect" href="https://api.vturb.com.br">
   
+  <!-- Preload do script do player -->
+  <link rel="preload" href="https://scripts.converteai.net/ae3be4ad-1026-47e6-b71a-3374c1f6f8a8/players/67b80d36a374a05a145d66fa/player.js" as="script">
+  
   <!-- Scripts UTMify e Pixel -->
   <script src="https://cdn.utmify.com.br/scripts/utms/latest.js" data-utmify-prevent-subids async defer></script>
   <script>
@@ -51,15 +54,15 @@
       padding: 0;
       box-sizing: border-box;
     }
-    /* Desabilitar overscroll/pull-to-refresh (principalmente no Chrome Android) */
+    /* Bloqueia overscroll e pull-to-refresh em navegadores modernos */
     html, body {
       background-color: #000;
       font-family: Arial, sans-serif;
       color: #fff;
-      overscroll-behavior: none; /* Evita pull-to-refresh em Android/Chrome */
+      overscroll-behavior: none;
       height: 100%;
     }
-    /* Tentar bloquear arrasto no iOS (nem sempre é 100%) */
+    /* Tenta bloquear gestos de toque (pode não funcionar 100% em iOS) */
     body {
       touch-action: none;
     }
@@ -99,7 +102,7 @@
       left: 50%;
       transform: translate(-50%, -50%);
       z-index: 2;
-      background-color: rgba(0, 0, 0, 0.6);
+      background-color: rgba(0,0,0,0.6);
       color: #fff;
       border: none;
       padding: 1em 2em;
@@ -108,7 +111,7 @@
       cursor: pointer;
     }
     .play-button:hover {
-      background-color: rgba(0, 0, 0, 0.8);
+      background-color: rgba(0,0,0,0.8);
     }
     #player-wrapper {
       display: none;
@@ -132,16 +135,21 @@
   </style>
 </head>
 <body>
-
-  <!-- Bloqueio do botão "Voltar" no histórico -->
+  <!-- Bloqueio do botão "Voltar" e função para iniciar o vídeo caso o usuário aperte voltar -->
   <script>
-    // Empurra estado no histórico para travar a função "voltar"
-    history.pushState(null, null, location.href);
-    window.onpopstate = function() {
-      history.go(1);
+    let videoStarted = false;
+    history.pushState({page: 1}, "", "");
+    window.onpopstate = function(e) {
+      if (!videoStarted) {
+        // Se o vídeo ainda não iniciou, simula o clique em "Assistir Vídeo"
+        document.getElementById("play-button").click();
+      } else {
+        // Se o vídeo já iniciou, empurra o estado novamente para bloquear o voltar
+        history.pushState({page: 1}, "", "");
+      }
     };
   </script>
-
+  
   <!-- Cabeçalho -->
   <header>
     <h1>Aprenda a se Conectar com Espíritos Superiores Agora!</h1>
@@ -153,15 +161,9 @@
     
     <!-- Container do vídeo em tela cheia -->
     <div class="video-container">
-      <img
-        id="video-placeholder"
-        class="video-placeholder"
-        src="https://vidaativatotal.online/1200x630.png"
-        alt="Imagem de pré-visualização do vídeo"
-      >
+      <img id="video-placeholder" class="video-placeholder" src="https://vidaativatotal.online/1200x630.png" alt="Imagem de pré-visualização do vídeo">
       <button class="play-button" id="play-button">▶️ Assistir Vídeo</button>
       <div id="player-wrapper">
-        <!-- Verifique se este ID e script correspondem ao seu player Converteai -->
         <div id="vid_67b80d36a374a05a145d66fa"></div>
       </div>
     </div>
@@ -184,19 +186,17 @@
     const footer        = document.querySelector("footer");
 
     playBtn.addEventListener("click", function() {
-      // Oculta placeholder e botão
+      videoStarted = true;
+      // Oculta o placeholder e o botão
       placeholder.style.display = "none";
       playBtn.style.display = "none";
-
+      // Remove cabeçalho, conteúdo e rodapé para deixar apenas o vídeo em tela cheia
+      if (header) header.style.display = "none";
+      if (main) main.style.display = "none";
+      if (footer) footer.style.display = "none";
       // Exibe o container do player
       playerWrapper.style.display = "block";
-
-      // Remove todo o restante da tela (header, main, footer)
-      if (header) header.style.display = "none";
-      if (main)   main.style.display   = "none";
-      if (footer) footer.style.display = "none";
-
-      // Carrega o script do player Converteai
+      // Carrega dinamicamente o script do player Converteai
       const script = document.createElement("script");
       script.src = "https://scripts.converteai.net/ae3be4ad-1026-47e6-b71a-3374c1f6f8a8/players/67b80d36a374a05a145d66fa/player.js";
       script.async = true;
