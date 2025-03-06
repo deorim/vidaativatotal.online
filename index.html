@@ -1,41 +1,171 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <link rel="preconnect" href="https://scripts.converteai.net">
-  <link rel="preload" href="https://scripts.converteai.net/ae3be4ad-1026-47e6-b71a-3374c1f6f8a8/players/67b80d36a374a05a145d66fa/player.js" as="script">
-  <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer/v1/smartplayer.min.js" as="script">
-  <link rel="preload" href="https://cdn.converteai.net/ae3be4ad-1026-47e6-b71a-3374c1f6f8a8/67b80d3133bfecabcd27a5ba/main.m3u8" as="fetch">
-  <link rel="dns-prefetch" href="https://cdn.converteai.net">
-  <link rel="dns-prefetch" href="https://scripts.converteai.net">
-  <link rel="dns-prefetch" href="https://images.converteai.net">
-  <link rel="dns-prefetch" href="https://api.vturb.com.br">
-  <script
-  src="https://cdn.utmify.com.br/scripts/utms/latest.js"
-  data-utmify-prevent-subids
-  async
-  defer
-></script>
-<script>
-  window.pixelId = "67bb8a36626ceee2454e2804";
-  var a = document.createElement("script");
-  a.setAttribute("async", "");
-  a.setAttribute("defer", "");
-  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
-  document.head.appendChild(a);
-</script>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Aprenda Agora 👉👉👉</title>
+  
+  <!-- Meta tags essenciais para mobile e SEO -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   <meta name="format-detection" content="telephone=no">
-  <title>Ouvir Agora 👉👉👉</title>
-</head>
-<body style="margin:0">
-  <!-- VSL -->
-  <div id="vid_67b80d36a374a05a145d66fa" style="position:relative;width:100%;padding-top:178.2178%;"></div>
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="Descubra agora como aprender de forma rápida e prática. Clique e confira o vídeo completo!">
+  
+  <!-- Open Graph para compartilhamento -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vidaativatotal.online/pv0123">
+  <meta property="og:title" content="Aprenda Agora 👉👉👉">
+  <meta property="og:description" content="Descubra agora como aprender de forma rápida e prática. Clique e confira o vídeo completo!">
+  <!-- Utilize uma imagem vertical otimizada (1080x1920) -->
+  <meta property="og:image" content="https://vidaativatotal.online/1080x1920.png">
+  
+  <!-- Twitter Cards -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://vidaativatotal.online/pv0123">
+  <meta property="twitter:title" content="Aprenda Agora 👉👉👉">
+  <meta property="twitter:description" content="Aprenda agora de forma rápida e prática. Clique e confira o vídeo completo!">
+  <meta property="twitter:image" content="https://vidaativatotal.online/1080x1920.png">
+  
+  <!-- Pré-conexões para recursos externos -->
+  <link rel="preconnect" href="https://scripts.converteai.net">
+  <link rel="preconnect" href="https://cdn.converteai.net">
+  <link rel="preconnect" href="https://images.converteai.net">
+  <link rel="preconnect" href="https://api.vturb.com.br">
+  
+  <!-- Opcional: preload do script do player (se preferir, descomente) -->
+  <!--
+  <link rel="preload" href="https://scripts.converteai.net/ae3be4ad-1026-47e6-b71a-3374c1f6f8a8/players/67b80d36a374a05a145d66fa/player.js" as="script">
+  -->
+  
+  <!-- Scripts UTMify e Pixel -->
+  <script src="https://cdn.utmify.com.br/scripts/utms/latest.js" data-utmify-prevent-subids async defer></script>
   <script>
-    var s = document.createElement("script");
-    s.src = "https://scripts.converteai.net/ae3be4ad-1026-47e6-b71a-3374c1f6f8a8/players/67b80d36a374a05a145d66fa/player.js";
-    s.async = true;
-    document.head.appendChild(s);
+    window.pixelId = "67bb3be4572a3b844fc896ed";
+    (function(){
+      var a = document.createElement("script");
+      a.async = true;
+      a.defer = true;
+      a.src = "https://cdn.utmify.com.br/scripts/pixel/pixel.js";
+      document.head.appendChild(a);
+    })();
+  </script>
+  
+  <!-- Estilos CSS -->
+  <style>
+    /* Reset básico */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background-color: #000; font-family: Arial, sans-serif; color: #fff; }
+    
+    /* Seção Hero: exibe o vídeo em tela cheia */
+    .hero {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: #000;
+    }
+    .hero .video-placeholder {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      border: none;
+      padding: 1em 2em;
+      border-radius: 8px;
+      font-size: 1.2em;
+      cursor: pointer;
+    }
+    .hero .play-button:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+    .hero #player-wrapper {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+    }
+    .hero #vid_67b80d36a374a05a145d66fa {
+      width: 100%;
+      height: 100%;
+    }
+    
+    /* Conteúdo adicional abaixo da seção Hero */
+    .content {
+      padding: 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .content h1 { font-size: 1.8rem; margin-bottom: 1rem; }
+    .content p { font-size: 1rem; line-height: 1.4; margin-bottom: 1rem; }
+    
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #ccc;
+      margin-top: 2rem;
+      padding: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Seção Hero: vídeo em tela cheia -->
+  <section class="hero">
+    <!-- Placeholder: imagem vertical (1080x1920) -->
+    <img id="video-placeholder" class="video-placeholder" src="https://vidaativatotal.online/1080x1920.png" alt="Imagem de pré-visualização do vídeo">
+    
+    <!-- Botão central para iniciar o vídeo -->
+    <button class="play-button" id="play-button">▶️ Assistir Vídeo</button>
+    
+    <!-- Container do player (carregado dinamicamente) -->
+    <div id="player-wrapper">
+      <div id="vid_67b80d36a374a05a145d66fa"></div>
+    </div>
+  </section>
+  
+  <!-- Conteúdo adicional para SEO e informações -->
+  <section class="content">
+    <h1>Aprenda a se Conectar com Espíritos Superiores Agora!</h1>
+    <p>
+      Descubra como ativar as 100 mil Centelhas de Luz Interior na prática e transformar sua jornada espiritual.
+    </p>
+    <p>
+      Assista ao vídeo acima e inicie sua jornada para uma conexão mais profunda com o universo.
+    </p>
+  </section>
+  
+  <footer>
+    &copy; Instituto Chico Xavier. Todos os direitos reservados.
+  </footer>
+  
+  <!-- Script para carregar o player dinamicamente ao clicar -->
+  <script>
+    const playBtn = document.getElementById("play-button");
+    const placeholder = document.getElementById("video-placeholder");
+    const playerWrapper = document.getElementById("player-wrapper");
+
+    playBtn.addEventListener("click", function() {
+      // Oculta o placeholder e o botão
+      placeholder.style.display = "none";
+      playBtn.style.display = "none";
+      // Exibe o container do player
+      playerWrapper.style.display = "block";
+      // Carrega dinamicamente o script do player Converteai
+      const script = document.createElement("script");
+      script.src = "https://scripts.converteai.net/ae3be4ad-1026-47e6-b71a-3374c1f6f8a8/players/67b80d36a374a05a145d66fa/player.js";
+      script.async = true;
+      document.head.appendChild(script);
+    });
   </script>
 </body>
 </html>
