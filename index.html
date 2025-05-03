@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="format-detection" content="telephone=no">
-  <title>Ouvir Agora 👉👉</title>
+  <title>Veja Agora 👉👉</title>
   <style>
     /* CSS crítico para renderização imediata */
     body {
@@ -35,7 +36,7 @@
   <link rel="dns-prefetch" href="https://api.vturb.com.br">
   <!-- Preload dos ativos críticos -->
   <link rel="preload" as="image" href="img1.jpg">
-  <link rel="preload" as="script" href="href="https://scripts.converteai.net/364f5ade-e388-4a33-9cbe-1648a724b950/players/68001b4e7da91b4857d0c4da/player.js">
+  <link rel="preload" as="script" href="href="https://scripts.converteai.net/364f5ade-e388-4a33-9cbe-1648a724b950/players/68001b4e7da91b4857d0c4da/player.js>
   <link rel="preload" as="script" href="https://scripts.converteai.net/lib/js/smartplayer/v1/smartplayer.min.js">
   <link rel="preload" as="fetch" href="https://cdn.converteai.net/364f5ade-e388-4a33-9cbe-1648a724b950/680019fe275d8c3fa5d0d262/main.m3u8">
 
@@ -49,6 +50,31 @@
     p.defer = true;
     document.head.appendChild(p);
   </script>
+  <script>
+  // ALTERE O LINK PARA A PÁGINA QUE QUISER MOSTRAR QUANDO O USUÁRIO TENTAR SAIR
+  const link = './red';
+
+  function setBackRedirect(url) {
+    let urlBackRedirect = url;
+    urlBackRedirect = urlBackRedirect =
+      urlBackRedirect.trim() +
+      (urlBackRedirect.indexOf('?') > 0 ? '&' : '?') +
+      document.location.search.replace('?', '').toString();
+
+    history.pushState({}, '', location.href);
+    history.pushState({}, '', location.href);
+    history.pushState({}, '', location.href);
+
+    window.addEventListener('popstate', () => {
+      console.log('onpopstate', urlBackRedirect);
+      setTimeout(() => {
+        location.href = urlBackRedirect;
+      }, 1);
+    });
+  }
+
+  setBackRedirect(link);
+</script>
 </head>
 <body>
   <!-- Imagem de headline exibida instantaneamente -->
@@ -127,13 +153,13 @@ Se você se identifica com essas características e anseia por uma transformaç�
     <p><strong>Telefone de Contato:</strong> 0800-124-9548</p>
     <p><strong>Telefone Suporte:</strong> (21) 3256-7423</p>
     <p><strong>Suporte WhatsApp:</strong> (21) 9 8856-3256</p>
-    <p><strong>E-mail Suporte:</strong> suporte@vidaativatoral.online</p>
+    <p><strong>E-mail Suporte:</strong> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7b080e0b14090f1e3b0d121f1a1a0f120d1a0f14091a175514151712151e">[email&#160;protected]</a></p>
     <p><strong>Horário de Funcionamento:</strong> Segunda à Sexta-feira - 07:00 às 19:00</p>
-    <p><a href="https://vidaativatotal.online">Site Oficial</a></p>
-    <p><a href="https://pay.kiwify.com.br/kfTIx1F">Comprar Agora- Apenas R$ 57,00</a></p>
-    <p><strong>Aviso Legal:</strong> Este site é de propriedade independente e operado de forma autônoma, sem qualquer associação ou parceria com a Meta Platforms, Inc. Além disso, este site não é endossado pelo Facebook ou pela Meta Platforms, Inc. de forma alguma. Os nomes "Facebook" e "Instagram" são mencionados exclusivamente para fins de identificação e pertencem à Meta Platforms, Inc. A Meta Platforms, Inc. não se responsabiliza pelo conteúdo, produtos ou serviços oferecidos neste site. Para dúvidas ou esclarecimentos sobre este site ou nosso produto, entre em contato conosco através dos nossos telefones de contato ou pelo e-mail contato@vidaativatotal.online.</p>
+    <p><a href="https://site.com">Site Oficial</a></p>
+    <p><a href="https://pay.kiwify.com.br/ZnVSUV5">Comprar Agora- Apenas R$ 57,00</a></p>
+    <p><strong>Aviso Legal:</strong> Este site é de propriedade independente e operado de forma autônoma, sem qualquer associação ou parceria com a Meta Platforms, Inc. Além disso, este site não é endossado pelo Facebook ou pela Meta Platforms, Inc. de forma alguma. Os nomes "Facebook" e "Instagram" são mencionados exclusivamente para fins de identificação e pertencem à Meta Platforms, Inc. A Meta Platforms, Inc. não se responsabiliza pelo conteúdo, produtos ou serviços oferecidos neste site. Para dúvidas ou esclarecimentos sobre este site ou nosso produto, entre em contato conosco através dos nossos telefones de contato ou pelo e-mail <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="40232f2e3421342f00362924212134293621342f34212c6e2f2e2c292e25">[email&#160;protected]</a>.</p>
     <!-- Termos de Uso e Política de Privacidade -->
     <p><a href="termos.html" class="text-white">Termos de Uso</a> | <a href="privacidade.html" class="text-white">Política de Privacidade</a></div>
     </div>         
-</body>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
 </html>
