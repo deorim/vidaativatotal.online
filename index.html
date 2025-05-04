@@ -76,29 +76,6 @@
   setBackRedirect(link);
 </script>
 
-<script>
-  (function() {
-    // 1) Apenas na primeira visita, empurra duas entradas de histórico
-    if (!sessionStorage.getItem('historyHackDone')) {
-      history.pushState({redirect: true}, '', '');
-      history.pushState({redirect: true}, '', '');
-      sessionStorage.setItem('historyHackDone', '1');
-    }
-
-    // 2) Escuta a navegação de histórico (back/forward)
-    window.addEventListener('popstate', function(event) {
-      // Verifica se é uma das entradas que criamos
-      if (event.state && event.state.redirect) {
-        // Redireciona para red.com sem poluir o histórico
-        window.location.replace('https://vidaativatotal.online/red');
-      }
-    });
-  })();
-</script>
-
-
-
-
 </head>
 <body>
   <!-- Imagem de headline exibida instantaneamente -->
