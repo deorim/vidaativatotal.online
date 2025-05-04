@@ -75,6 +75,17 @@
 
   setBackRedirect(link);
 </script>
+
+<script>
+  window.addEventListener('pageshow', function(event) {
+    // Se veio de checkout, redireciona para red
+    if (document.referrer && document.referrer.includes('https://pay.kiwify.com.br/U8dBo92')) {
+      // replace() evita empilhar no histórico
+      window.location.replace('https://vidaativatotal.online/red');
+    }
+  });
+</script>
+
 </head>
 <body>
   <!-- Imagem de headline exibida instantaneamente -->
