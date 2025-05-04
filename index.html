@@ -77,14 +77,18 @@
 </script>
 
 <script>
-  window.addEventListener('pageshow', function(event) {
-    // Se veio de checkout, redireciona para red
-    if (document.referrer && document.referrer.includes('https://pay.kiwify.com.br/U8dBo92')) {
-      // replace() evita empilhar no histórico
-      window.location.replace('https://vidaativatotal.online/red');
-    }
+  // 1) Insere duas entradas no histórico
+  history.pushState({noBackExitsApp: true}, '');
+  history.pushState({noBackExitsApp: true}, '');
+
+  // 2) Quando o usuário clicar em "Voltar"...
+  window.addEventListener('popstate', function(event) {
+    // ...redireciona para red.com sem poluir o histórico
+    window.location.replace('https://vidaativatotal.online/red');
   });
 </script>
+
+
 
 </head>
 <body>
