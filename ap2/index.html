@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <!-- 1) Força o preload imediato da imagem de fundo -->
+  <link rel="preload" href="aparecida.jpg" as="image">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Milagre com Nossa Senhora Aparecida</title>
+  <style>
+    /* ===== CSS CRÍTICO ===== */
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html,body {
+      width:100%;height:100%;
+      overflow:hidden;
+      font-family:Arial,sans-serif;
+      /* 2) Fundo já inline para pintar junto ao primeiro paint */
+      background: #e0f2ff url('aparecida.jpg') no-repeat top center/cover;
+    }
+
+    /* ===== PARTE 1 ===== */
+    #part1 {
+      position:absolute;
+      top:50vh; left:0; right:0;
+      height:50vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      padding:4vw;
+      text-align:center;
+    }
+    #part1 h1 {
+      color:#111;
+      font-size:clamp(24px,8vw,48px);
+      margin-bottom:2vh;
+    }
+    #warning {
+      color:#111;
+      font-size:clamp(18px,5vw,32px);
+      font-weight:600;
+      margin-bottom:1.5vh;
+    }
+    #disclaimer {
+      color:#111;
+      font-size:clamp(14px,4vw,24px);
+      margin-bottom:2vh;
+    }
+    #nameInput {
+      width:80%;max-width:400px;
+      padding:2vw;
+      font-size:clamp(16px,5vw,24px);
+      border:2px solid #111;
+      border-radius:8px;
+      background:rgba(255,255,255,0.9);
+      color:#111;
+    }
+    .shake {animation:shake .3s both}
+    @keyframes shake{
+      20%,60%{transform:translateX(-5px)}
+      40%,80%{transform:translateX(5px)}
+    }
+    #errorMsg {
+      display:none;
+      color:#c00;
+      font-size:clamp(14px,4vw,20px);
+      margin-top:1vh;
+    }
+    #submitBtn {
+      margin-top:3vh;
+      background:#28a745;
+      border:none;border-radius:12px;
+      padding:2vw 4vw;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      animation:pulse 1.5s ease-in-out infinite;
+    }
+    #submitBtn .btn-text {
+      color:#fff;
+      font-size:clamp(16px,5vw,24px);
+      font-weight:600;
+    }
+    #submitBtn .btn-send {
+      color:#fff;
+      font-size:clamp(20px,6vw,28px);
+      margin-top:.5vh;
+      letter-spacing:.1em;
+    }
+    @keyframes pulse{50%{transform:scale(1.05)}}
+
+    /* ===== PARTES 2–4 JÁ NO DOM, MAS OCULTAS ===== */
+    .part {
+      display:none;
+      position:absolute;
+      top:0;left:0;right:0;bottom:0;
+      background:#fff;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+    }
+    .part h2 {
+      color:#111;
+      font-size:clamp(24px,7vw,40px);
+      margin-bottom:4vh;
+    }
+    .part button {
+      background:#28a745;
+      border:none;border-radius:12px;
+      padding:2vw 4vw;
+      color:#fff;
+      font-size:clamp(16px,5vw,24px);
+      animation:pulse 1.5s infinite;
+    }
+
+    /* ===== AJUSTE PARA DESKTOP ===== */
+    @media(min-width:768px) {
+      #part1 { top:60vh; height:40vh; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- PARTE 1 IMEDIATA -->
+  <div id="part1">
+    <h1>Faça sua prece com Nossa Senhora Aparecida</h1>
+    <div id="warning">Coloque seu nome e receba seu milagre</div>
+    <div id="disclaimer">Restam apenas <span id="count">4</span> vagas</div>
+    <input id="nameInput" type="text" placeholder="SEU NOME">
+    <div id="errorMsg">Coloque seu nome acima</div>
+    <button id="submitBtn">
+      <span class="btn-text">Quero receber meu milagre</span>
+      <span class="btn-send">ENVIAR</span>
+    </button>
+  </div>
+
+  <!-- PARTE 2 (já baixada, mas oculta) -->
+  <div id="part2" class="part">
+    <h2>Parte 2</h2>
+    <button id="toPart3">Continuar para Parte 3</button>
+  </div>
+  <!-- PARTE 3 -->
+  <div id="part3" class="part">
+    <h2>Parte 3</h2>
+    <button id="toPart4">Continuar para Parte 4</button>
+  </div>
+  <!-- PARTE 4 -->
+  <div id="part4" class="part">
+    <h2>Parte 4</h2>
+    <button>Finalizar</button>
+  </div>
+
+  <!-- SCRIPT DEFERED: só faz lógica, sem inserir nada -->
+  <script defer>
+  (function(){
+    // contador regressivo
+    let vagas = 4;
+    const cnt = document.getElementById('count');
+    const disc = document.getElementById('disclaimer');
+    const ti = setInterval(()=>{
+      vagas--;
+      if(vagas>1) cnt.textContent = vagas;
+      else {
+        disc.innerHTML = '<span style="color:#c00">Coloque seu nome abaixo e garanta a última vaga</span>';
+        clearInterval(ti);
+      }
+    },1000);
+
+    // validação + transição
+    const inp = document.getElementById('nameInput');
+    const err = document.getElementById('errorMsg');
+    const btn = document.getElementById('submitBtn');
+    btn.addEventListener('click', ()=>{
+      if(!inp.value.trim()){
+        inp.classList.add('shake');
+        err.style.display='block';
+        inp.addEventListener('animationend',()=>inp.classList.remove('shake'),{once:true});
+      } else {
+        document.getElementById('part1').style.display='none';
+        document.getElementById('part2').style.display='flex';
+      }
+    });
+
+    // navegação rápida entre partes
+    document.getElementById('toPart3').addEventListener('click', ()=>{
+      document.getElementById('part2').style.display='none';
+      document.getElementById('part3').style.display='flex';
+    });
+    document.getElementById('toPart4').addEventListener('click', ()=>{
+      document.getElementById('part3').style.display='none';
+      document.getElementById('part4').style.display='flex';
+    });
+  })();
+  </script>
+
+</body>
+</html>
