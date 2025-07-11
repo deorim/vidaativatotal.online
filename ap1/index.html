@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Milagre com Nossa Senhora Aparecida</title>
+  <style>
+    /* RESET & FULLSCREEN */
+    html, body {
+      margin: 0; padding: 0;
+      height: 100%; overflow: hidden;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background-color: #e0f2ff;
+    }
+    /* FUNDO (imagem PNG) */
+    body {
+      background: url('aparecida.jpg') no-repeat top center;
+      background-size: cover;
+    }
+    /* CONTAINER PARTE 1: começa abaixo de 50% da viewport */
+    #part1 {
+      position: absolute;
+      top: 40vh; /* inicia na metade da tela */
+      left: 0; right: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      height: 50vh;
+      padding: 4vw;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    /* HEADLINE */
+    #part1 h1 {
+      color: #1a1a1a;
+      font-size: 8vw;
+      line-height: 1.1;
+      margin-bottom: 3vh;
+    }
+    /* AVISO PRINCIPAL */
+    #warning {
+      color: #1a1a1a;
+      font-size: 5vw;
+      margin-bottom: 2vh;
+      font-weight: bold;
+    }
+    /* DISCLAIMER */
+    #disclaimer {
+      color: #1a1a1a;
+      font-size: 4vw;
+      margin-bottom: 2vh;
+    }
+    /* INPUT */
+    #nameInput {
+      width: 80%;
+      max-width: 400px;
+      padding: 3vw 4vw;
+      font-size: 5vw;
+      border: 2px solid rgba(0,0,0,0.8);
+      border-radius: 2vw;
+      background: rgba(255,255,255,0.8);
+      color: #1a1a1a;
+      outline: none;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+    }
+    /* SHAKE ANIMATION */
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%,60% { transform: translateX(-5px); }
+      40%,80% { transform: translateX(5px); }
+    }
+    .shake {
+      animation: shake 0.3s;
+    }
+    /* ERRO */
+    #errorMsg {
+      display: none;
+      font-size: 4vw;
+      color: #c00;
+      margin-top: 2vh;
+    }
+    /* BOTÃO */
+    #submitBtn {
+      margin-top: 3vh;
+      background: #28a745;
+      border: none;
+      border-radius: 3vw;
+      padding: 3vw 5vw;
+      cursor: pointer;
+      outline: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    #submitBtn .btn-text {
+      font-size: 5vw;
+      color: #fff;
+      font-weight: bold;
+    }
+    #submitBtn .btn-send {
+      font-size: 6vw;
+      color: #fff;
+      margin-top: 1vh;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    @keyframes pulse {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    /* PARTES 2–4 (OCULTAS) */
+    .part {
+      display: none;
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: #fff;
+    }
+    .part h2 {
+      font-size: 7vw;
+      margin-bottom: 4vh;
+      color: #1a1a1a;
+    }
+    .part button {
+      background: #28a745;
+      border: none;
+      border-radius: 3vw;
+      padding: 3vw 5vw;
+      font-size: 5vw;
+      color: #fff;
+      cursor: pointer;
+      outline: none;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="part1">
+    <h1>Faça sua prece com Nossa Senhora Aparecida</h1>
+    <div id="warning">Coloque seu nome e receba seu milagre</div>
+    <div id="disclaimer">Restam apenas <span id="count">4</span> vagas</div>
+    <input type="text" id="nameInput" placeholder="SEU NOME">
+    <div id="errorMsg">Coloque seu nome acima</div>
+    <button id="submitBtn">
+      <span class="btn-text">Quero receber meu milagre</span>
+      <span class="btn-send">ENVIAR</span>
+    </button>
+  </div>
+
+  <!-- placeholders das próximas partes -->
+  <div id="part2" class="part">
+    <h2>Parte 2</h2>
+    <button id="toPart3">Continuar para Parte 3</button>
+  </div>
+  <div id="part3" class="part">
+    <h2>Parte 3</h2>
+    <button id="toPart4">Continuar para Parte 4</button>
+  </div>
+  <div id="part4" class="part">
+    <h2>Parte 4</h2>
+    <button>Finalizar</button>
+  </div>
+
+  <script>
+    // Contador regressivo
+    let count = 4;
+    const countEl = document.getElementById('count');
+    const discEl  = document.getElementById('disclaimer');
+    const timer = setInterval(() => {
+      count--;
+      if (count > 1) {
+        countEl.textContent = count;
+      } else if (count === 1) {
+        discEl.innerHTML = '<span style="color:#c00;">Coloque seu nome abaixo e garanta a última vaga</span>';
+        clearInterval(timer);
+      }
+    }, 2000);
+
+    // Validação e transição para Parte 2
+    const nameInput = document.getElementById('nameInput');
+    const errorMsg  = document.getElementById('errorMsg');
+    document.getElementById('submitBtn').addEventListener('click', () => {
+      if (!nameInput.value.trim()) {
+        nameInput.classList.add('shake');
+        errorMsg.style.display = 'block';
+        nameInput.addEventListener('animationend', () => {
+          nameInput.classList.remove('shake');
+        }, { once: true });
+      } else {
+        document.getElementById('part1').style.display  = 'none';
+        document.getElementById('part2').style.display  = 'flex';
+      }
+    });
+
+    // Navegação placeholders
+    document.getElementById('toPart3').addEventListener('click', () => {
+      document.getElementById('part2').style.display = 'none';
+      document.getElementById('part3').style.display = 'flex';
+    });
+    document.getElementById('toPart4').addEventListener('click', () => {
+      document.getElementById('part3').style.display = 'none';
+      document.getElementById('part4').style.display = 'flex';
+    });
+
+    // Preload partes ocultas em idle time
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => {
+        // foreach part: pré-carregar scripts/imagens se necessário
+      });
+    }
+  </script>
+
+</body>
+</html>
