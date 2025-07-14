@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel de Interações Automáticas Facebook</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; }
+    #login-screen, #dashboard { display: none; padding: 20px; }
+    #login-screen.active, #dashboard.active { display: block; }
+    .container { max-width: 800px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    h1 { margin-top: 0; }
+    label { display: block; margin: 8px 0 4px; }
+    input[type="text"], input[type="password"] { width: 100%; padding: 8px; margin-bottom: 12px; }
+    button { padding: 10px 16px; margin: 4px; border: none; border-radius: 4px; cursor: pointer; }
+    button.primary { background: #007bff; color: #fff; }
+    button.danger { background: #dc3545; color: #fff; }
+    button.secondary { background: #6c757d; color: #fff; }
+    table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    th, td { padding: 8px; border: 1px solid #ddd; text-align: center; }
+    #log { height: 150px; overflow-y: auto; background: #272822; color: #f8f8f2; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px; }
+    .url-input { display: flex; align-items: center; }
+    .url-input input { flex: 1; }
+    .url-input .metrics { width: 180px; display: flex; justify-content: space-between; }
+  </style>
+</head>
+<body>
+  <div id="login-screen" class="active container">
+    <h1>Login</h1>
+    <label for="password">Digite a senha:</label>
+    <input type="password" id="password" placeholder="Senha">
+    <button id="btn-login" class="primary">Entrar</button>
+    <p id="login-error" style="color: red; display: none;">Senha incorreta.</p>
+  </div>
+
+  <div id="dashboard" class="container">
+    <h1>Painel de Interações Automáticas</h1>
+    <div>
+      <button id="btn-start" class="primary">Iniciar Automação</button>
+      <button id="btn-pause" class="secondary">Pausar</button>
+      <button id="btn-reset" class="danger">Resetar Métricas</button>
+      <button id="btn-export" class="secondary">Exportar CSV</button>
+    </div>
+    <h2>Perfis Ativos</h2>
+    <ul id="profile-list"></ul>
+    <h2>URLs de Publicação</h2>
+    <div id="urls-container"></div>
+    <button id="btn-add-url" class="secondary">➕ Incluir mais URL</button>
+    <table id="metrics-table">
+      <thead>
+        <tr><th>URL</th><th>Curtidas</th><th>Comentários</th><th>Compartilhamentos</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <h2>Log de Ações</h2>
+    <div id="log"></div>
+  </div>
+
+  <script>
+    // Configurações e lista de 100 comentários
+    const PASSWORD = '33479811';
+    const COMMENTS = [
+      'Amei!', 'Muito bom!', 'Excelente!', 'Top demais!', 'Que lindo!', 'Perfeito!', 'Sensacional!', 'Parabéns!', 'Super apoio!', 'Show de bola!',
+      'Me emocionei!', 'Que bênção!', 'Gratidão por compartilhar!', 'Fortaleceu meu dia!', 'Que mensagem linda!', 'Profundo e verdadeiro!',
+      'Que texto maravilhoso!', 'Isso tocou meu coração!', 'Que energia boa!', 'Muito edificante!', 'Simplesmente perfeito!', 'Emocionante!',
+      'Lindo demais!', 'Adorei!', 'Tô sem palavras!', 'Que incrível!', 'Impactante!', 'Que reflexão poderosa!', 'Aplaudindo de pé!', 'Sem igual!',
+      'Muito necessário!', 'Fiquei arrepiado!', 'Que coisa linda!', 'Me deu paz!', 'Que sabedoria!', 'Concordo plenamente!', 'Isso é luz!',
+      'Muito especial!', 'Incrível testemunho!', 'Tocante!', 'Deus abençoe!', 'Forte demais!', 'Estou em lágrimas!', 'Compartilhei agora!',
+      'Que amor!', 'Tocou fundo!', 'Que grande lição!', 'Esse conteúdo é ouro!', 'Muito relevante!', 'Isso vale ouro!', 'Isso é fé!',
+      'Que lindo exemplo!', 'Estou sem palavras!', 'Vou guardar isso comigo!', 'Isso é verdade pura!', 'Vou compartilhar com todos!',
+      'Que revelação!', 'Isso me despertou!', 'Muito inspirador!', 'Isso me fez refletir!', 'Palmas!', 'Que presente!', 'Que luz!', 'Me emocionou!',
+      'Isso é divino!', 'Amei demais!', 'Muito top!', 'Isso merece ser visto!', 'Isso precisa ser divulgado!', 'Que beleza!', 'Me tocou profundamente!',
+      'Lindo testemunho!', 'Isso é cura!', 'Pura verdade!', 'É disso que precisamos!', 'Que fé!', 'Que mensagem poderosa!', 'Isso edifica!',
+      'Que coisa abençoada!', 'Que palavras!', 'Que sabedoria profunda!', 'Obrigado por isso!', 'Isso é esperança!', 'Me renovou!',
+      'Isso é vida!', 'Que força!', 'Isso muda tudo!', 'Isso é transformação!', 'Que bênção divina!', 'Isso me acalmou!',
+      'Que texto iluminado!', 'Isso vem de Deus!', 'Isso é para todos!', 'Isso precisa alcançar mais pessoas!', 'É disso que o mundo precisa!',
+      'Isso me fez chorar!', 'Muito tocante!', 'Isso salvou meu dia!', 'Que graça!', 'Que luz divina!'
+    ];
+
+    // Estado
+    let isRunning = false;
+    let urls = [];
+    let metrics = {};
+    let logEl = document.getElementById('log');
+
+    // Helpers
+    function log(msg) {
+      const time = new Date().toLocaleTimeString();
+      logEl.textContent += `[${time}] ${msg}\n`;
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+    function getRandomDelay(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    function getRandomComment() {
+      return COMMENTS[Math.floor(Math.random() * COMMENTS.length)];
+    }
+    function saveState() {
+      localStorage.setItem('fb_urls', JSON.stringify(urls));
+      localStorage.setItem('fb_metrics', JSON.stringify(metrics));
+    }
+    function loadState() {
+      const u = JSON.parse(localStorage.getItem('fb_urls')||'[]');
+      const m = JSON.parse(localStorage.getItem('fb_metrics')||'{}');
+      urls = u; metrics = m;
+    }
+    function updateMetricsTable() {
+      const tbody = document.querySelector('#metrics-table tbody');
+      tbody.innerHTML = '';
+      urls.forEach((u, i) => {
+        const m = metrics[u] || {likes:0,comments:0,shares:0};
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${u}</td><td>${m.likes}</td><td>${m.comments}</td><td>${m.shares}</td>`;
+        tbody.appendChild(row);
+      });
+    }
+
+    // UI Setup
+    document.getElementById('btn-login').addEventListener('click', () => {
+      const val = document.getElementById('password').value;
+      if(val === PASSWORD) {
+        document.getElementById('login-screen').classList.remove('active');
+        document.getElementById('dashboard').classList.add('active');
+        initDashboard();
+      } else {
+        document.getElementById('login-error').style.display = 'block';
+      }
+    });
+
+    function initDashboard() {
+      loadState();
+      renderProfiles();
+      renderUrlInputs();
+      updateMetricsTable();
+
+      document.getElementById('btn-add-url').addEventListener('click', () => {
+        addUrlInput('');
+      });
+      document.getElementById('btn-start').addEventListener('click', () => { isRunning = true; startAutomation(); });
+      document.getElementById('btn-pause').addEventListener('click', () => { isRunning = false; log('Automação pausada.'); });
+      document.getElementById('btn-reset').addEventListener('click', () => { metrics = {}; saveState(); updateMetricsTable(); log('Métricas resetadas.'); });
+      document.getElementById('btn-export').addEventListener('click', exportCsv);
+    }
+
+    function renderProfiles() {
+      const ul = document.getElementById('profile-list'); ul.innerHTML = '';
+      // Fake profiles list based on window.name or placeholder
+      const name = window.name || 'Perfil FB';
+      const li = document.createElement('li'); li.textContent = name; ul.appendChild(li);
+    }
+
+    function renderUrlInputs() {
+      const container = document.getElementById('urls-container'); container.innerHTML = '';
+      if(urls.length === 0) {
+        for(let i=0;i<10;i++) urls.push('');
+      }
+      urls.forEach((u,i) => addUrlInput(u, i));
+    }
+    function addUrlInput(value='', index) {
+      urls.push(value);
+      const idx = urls.length-1;
+      const div = document.createElement('div'); div.className = 'url-input';
+      const inp = document.createElement('input'); inp.type='text'; inp.value=value;
+      inp.placeholder='https://facebook.com/...';
+      inp.addEventListener('change',()=>{ urls[idx]=inp.value; saveState(); updateMetricsTable(); });
+      const metricsDiv = document.createElement('div'); metricsDiv.className='metrics';
+      metricsDiv.innerHTML = '<span>👍0</span><span>💬0</span><span>🔄0</span>';
+      div.append(inp, metricsDiv);
+      document.getElementById('urls-container').appendChild(div);
+      saveState(); updateMetricsTable();
+    }
+
+    // Automation Core
+    async function startAutomation() {
+      log('Automação iniciada.');
+      while(isRunning) {
+        for(const url of urls) {
+          if(!url) continue;
+          await interagirComPost(url);
+          if(!isRunning) break;
+          const pause = getRandomDelay(180000, 420000); // 3-7 min
+          log(`Aguardando ${Math.round(pause/1000/60)} min antes de reiniciar...`);
+          await new Promise(r=>setTimeout(r,pause));
+        }
+      }
+    }
+
+    async function interagirComPost(url) {
+      log(`Iniciando: ${url}`);
+      // Abre em iframe para manter o mesmo contexto
+      const iframe = document.createElement('iframe'); iframe.src = url; iframe.style.display='none'; document.body.appendChild(iframe);
+      await new Promise(r=>iframe.onload=r);
+      const doc = iframe.contentDocument;
+      // Curtir post
+      const likeBtn = doc.querySelector('[aria-label*="Curtir"]');
+      if(likeBtn) { likeBtn.click(); metrics[url].likes = (metrics[url]?.likes||0)+1; log('Post curtido.'); }
+      await new Promise(r=>setTimeout(r, getRandomDelay(45000,120000)));
+      // Comentar post
+      const commentBox = doc.querySelector('[aria-label="Escreva um comentário..."]');
+      if(commentBox) {
+        commentBox.focus(); commentBox.innerText = getRandomComment();
+        commentBox.dispatchEvent(new Event('input',{bubbles:true}));
+        const sendBtn = doc.querySelector('[aria-label="Enviar"]');
+        sendBtn?.click(); metrics[url].comments = (metrics[url]?.comments||0)+1; log('Comentário postado.');
+      }
+      await new Promise(r=>setTimeout(r, getRandomDelay(45000,120000)));
+      // Compartilhar post
+      const shareBtn = doc.querySelector('[aria-label*="Compartilhar"]');
+      shareBtn?.click();
+      // Assumindo fluxo de share default
+      metrics[url].shares = (metrics[url]?.shares||0)+1; log('Post compartilhado.');
+      await new Promise(r=>setTimeout(r, getRandomDelay(45000,120000)));
+      // Interagir com comentários
+      await interagirComComentarios(doc, url);
+      document.body.removeChild(iframe);
+      saveState(); updateMetricsTable();
+    }
+
+    async function interagirComComentarios(doc, url) {
+      const comments = doc.querySelectorAll('[aria-label="Comentário"]');
+      for(const c of comments) {
+        const like = c.querySelector('[aria-label*="Curtir"]');
+        if(like) { like.click(); log('Curtir comentário.'); await new Promise(r=>setTimeout(r,getRandomDelay(2000,5000))); }
+        const replyBtn = c.querySelector('[aria-label*="Responder"]');
+        if(replyBtn) {
+          replyBtn.click();
+          await new Promise(r=>setTimeout(r,getRandomDelay(1000,2000)));
+          const replyBox = c.querySelector('[aria-label="Escreva uma resposta..."]');
+          if(replyBox) {
+            replyBox.focus(); replyBox.innerText = getRandomComment();
+            replyBox.dispatchEvent(new Event('input',{bubbles:true}));
+            const send = c.querySelector('[aria-label="Enviar"]'); send?.click();
+            log('Comentário em comentário postado.');
+            metrics[url].comments++;
+            await new Promise(r=>setTimeout(r,getRandomDelay(3000,6000)));
+          }
+        }
+      }
+    }
+
+    function exportCsv() {
+      const rows = [['timestamp','profile','action','url']];
+      // Não implementado: histórico detalhado (apenas métricas atuais)
+      urls.forEach(u=>{
+        const m = metrics[u]||{likes:0,comments:0,shares:0};
+        rows.push([new Date().toISOString(), window.name||'Perfil', 'metrics', `${u} | 👍${m.likes} 💬${m.comments} 🔄${m.shares}`]);
+      });
+      const csv = rows.map(r=>r.join(',')).join('\n');
+      const a = document.createElement('a'); a.href = 'data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+      a.download = 'interacoes.csv'; a.click();
+    }
+  </script>
+</body>
+</html>
